@@ -239,3 +239,17 @@ body {
 .bg-warning { @apply bg-yellow-500 text-black; }
 .bg-error { @apply bg-red-600 text-white; }
 
+
+
+@media (max-width: 640px) {
+  .news-card {
+    min-height: 320px;
+  }
+  
+  .category-filters {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    padding-bottom: 8px;
+  }
+}

@@ -10,7 +10,6 @@ import { Menu as MenuIcon, X as XIcon } from "lucide-react";
 
 export const navItems = [
   { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
   {name: "News", path: "/news"},
   {name: "Contact", path: "/contact"},
 ];
@@ -66,17 +65,7 @@ export function Navbar() {
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 className="flex-shrink-0"
               >
-               <Image
-                src="/logo.jpg"
-                alt="HTECH 4 AFRICA Logo"
-                width={45}
-                height={45}
-                className={` rounded-[30%] transition-transform duration-300
-                  ${isScrolled ? "shadow-sm" : "shadow-lg"}
-                  ${isScrolled ? "filter grayscale" : ""}
-                  transition-all duration-300
-                `}
-              />
+             
                
               </motion.div>
               <span
@@ -186,25 +175,7 @@ export function Navbar() {
                   className="flex items-center gap-2"
                   onClick={() => setMenuOpen(false)}
                 >
-                  <svg
-                    className="w-8 h-8 text-blue-600"
-                    viewBox="0 0 32 32"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M16 2L28 8V24L16 30L4 24V8L16 2Z"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      fill="none"
-                    />
-                    <path
-                      d="M16 22C19.3137 22 22 19.3137 22 16C22 12.6863 19.3137 10 16 10C12.6863 10 10 12.6863 10 16C10 19.3137 12.6863 22 16 22Z"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      fill="none"
-                    />
-                  </svg>
+               
                   <span className="text-xl font-bold text-slate-800">
                     HTECH 4 AFRICA
                   </span>
