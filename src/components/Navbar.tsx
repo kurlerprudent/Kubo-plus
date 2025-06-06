@@ -138,7 +138,7 @@ export function Navbar() {
                 Login
               </p>
             </Link>
-            <Link href="/login?role=patient">
+            <Link href="/login">
               <motion.p
                 whileHover={{ scale: 1.05 }}
                 className={`
@@ -266,7 +266,7 @@ export function Navbar() {
                 whileHover={{ scale: 1.03 }}
                 className="w-full"
               >
-                <Link href="/login?role=patient">
+                <Link href="/login">
                   <p
                     className="block text-center bg-gradient-to-r from-blue-500 to-cyan-500 
                                hover:from-blue-600 hover:to-cyan-600 
