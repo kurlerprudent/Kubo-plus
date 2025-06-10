@@ -45,3 +45,9 @@ next-env.d.ts
 # Optional: Add specific editor directories if needed
 # .vscode/
 # .idea/
+# next-video
+videos/*
+!videos/*.json
+!videos/*.js
+!videos/*.ts
+public/_next-video

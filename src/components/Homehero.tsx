@@ -86,52 +86,18 @@ export function HeroSection() {
             transition={{ delay: 1, duration: 0.5 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  size="lg"
-                  className="
-                    bg-gradient-to-r from-blue-500 to-cyan-500 
-                    hover:from-blue-600 hover:to-cyan-600 
-                    text-white text-lg 
-                    px-8 py-4 
-                    rounded-full 
-                    shadow-lg 
-                    transform transition-transform duration-200 ease-in-out hover:scale-105
-                  "
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  Get Started
-                  <ChevronDown className="ml-2 h-5 w-5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="rounded-lg bg-white/90 shadow-lg">
-                <DropdownMenuItem asChild>
-                  <Link href="/login?role=patient">
-                    <a className="block w-full px-4 py-2 text-gray-800 hover:bg-gray-100">
-                      As Patient
-                    </a>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/login?role=doctor">
-                    <a className="block w-full px-4 py-2 text-gray-800 hover:bg-gray-100">
-                      As Doctor
-                    </a>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/login?role=admin">
-                    <a className="block w-full px-4 py-2 text-gray-800 hover:bg-gray-100">
-                      As Admin
-                    </a>
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
+           {/*Get Started Button */}
             <Button
+              className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-4 rounded-full shadow-lg transition-colors duration-200"
+              
+            >
+              <Link href="/login">Get Started</Link>
+            </Button>
+
+
+            <Link href="/learn-more">
+            <Button
+            
               variant="outline"
               size="lg"
               className="
@@ -147,6 +113,7 @@ export function HeroSection() {
             >
               Learn More
             </Button>
+            </Link>
           </motion.div>
         </motion.div>
       </div>

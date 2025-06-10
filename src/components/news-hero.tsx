@@ -2,6 +2,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
+import Video from 'next-video';
+import vidpath1 from "../../videos/medical-bg-video.webm"
 
 export default function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -27,20 +29,21 @@ export default function HeroSection() {
     <section className="relative h-screen w-full overflow-hidden">
       {/* Background video container */}
       <div className="absolute inset-0 z-0">
-        <video
+        <Video
           ref={videoRef}
+          src={vidpath1} 
+        
           autoPlay
           loop
           muted
           playsInline
           className="w-full h-full object-cover"
-          poster="/medical-bg-mobile.jpg" // optional: shows as a fallback until video loads
-        >
-          <source src="/medical-bg-video.mp4" type="video/mp4" />
-          <source src="/medical-bg-video.webm" type="video/webm" />
-          Your browser does not support the video tag.
-        </video>
+          poster="/bg2.png" 
 
+          
+        />
+          
+       
         {/* Dark overlay to make text pop */}
         <div className="absolute inset-0 bg-black/40" />
       </div>
@@ -80,7 +83,7 @@ export default function HeroSection() {
             {/* Outline Button */}
             <Button
               variant="outline"
-              className="rounded-full py-3 px-6 text-lg border border-white text-white hover:bg-white/20 shadow-lg transition-colors duration-200"
+              className="rounded-full py-3 px-6 text-lg border border-white text-black hover:bg-white/20 shadow-lg transition-colors duration-200"
             >
               For Medical Professionals
             </Button>

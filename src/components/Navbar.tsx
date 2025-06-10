@@ -59,7 +59,7 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto h-full flex items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Logo */}
           <Link href="/">
-            <p className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <motion.div
                 whileHover={{ scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -76,7 +76,7 @@ export function Navbar() {
               >
                 HTECH 4 AFRICA
               </span>
-            </p>
+            </div>
           </Link>
 
           {/* Desktop Links */}
