@@ -9,7 +9,7 @@ import { Linkedin, Github } from "lucide-react";
 const team = [
   {
     name: "Nsiah Kofi Denis",
-    role: "Software Engineer",
+    role: "Software Engineer && Co-Founder",
     avatar: "https://via.placeholder.com/200?text=Dr.+Nsiah",
     social: { linkedin: "#", github: "#" },
     delay: 0.1,
@@ -37,7 +37,7 @@ const team = [
   },
   {
     name: "Michael Oduro",
-    role: "Radiologist",
+    role: "Radiographer",
     avatar: "https://via.placeholder.com/200?text=Michael+Oduro",
     social: { linkedin: "#", github: "#" },
     delay: 0.5,
