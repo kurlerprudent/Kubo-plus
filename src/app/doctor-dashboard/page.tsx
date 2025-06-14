@@ -12,6 +12,8 @@ import {
   import { ScrollArea } from "@/components/ui/scroll-area";
   import DashboardChart from "@/components/DashboardChart";
   import { RadiologistAppSidebar } from "@/components/app-sidebar-doctor";
+import Rside from "@/components/header-right-side";
+import {SystemCarousel} from "@/components/system-courosel";
   
   export default function RadiologistDashboard() {
     return (
@@ -32,63 +34,50 @@ import {
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
+
+            <div className="ml-auto">
+             <Rside/>
+            </div>
           </header>
           
           <ScrollArea className="flex-1">
             <div className="flex flex-col gap-4 p-4">
-              {/* Metrics Section */}
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-                <div className="bg-white shadow p-6 rounded-xl flex flex-col items-center">
-                  <span className="text-lg font-semibold text-gray-700">Pending Analysis</span>
-                  <span className="text-3xl font-bold text-blue-600 mt-2">8</span>
+              {                /* First section */}
+
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="w-full md:w-1/2">
+                  {/* Carousel to show how the chest X-ray abnormalities are detected and displayed */}
+                  <SystemCarousel />
                 </div>
-                <div className="bg-white shadow p-6 rounded-xl flex flex-col items-center">
-                  <span className="text-lg font-semibold text-gray-700">Completed Reports</span>
-                  <span className="text-3xl font-bold text-blue-600 mt-2">42</span>
-                </div>
-                <div className="bg-white shadow p-6 rounded-xl flex flex-col items-center">
-                  <span className="text-lg font-semibold text-gray-700">Uploads Today</span>
-                  <span className="text-3xl font-bold text-blue-600 mt-2">5</span>
-                </div>
-                <div className="bg-white shadow p-6 rounded-xl flex flex-col items-center">
-                  <span className="text-lg font-semibold text-gray-700">Average Processing Time</span>
-                  <span className="text-3xl font-bold text-blue-600 mt-2">23m</span>
-                </div>
-              </div>
-  
-              {/* Recent Activity Section */}
-              <div className="bg-white shadow p-6 rounded-xl">
-                <h2 className="text-xl font-bold text-gray-800 mb-4">Recent Activity</h2>
-                <ul className="space-y-3">
-                  <li className="flex justify-between items-center">
-                    <span className="text-gray-600">New chest X-ray uploaded (PID-2345)</span>
-                    <span className="text-sm text-gray-500">2 hours ago</span>
-                  </li>
-                  <li className="flex justify-between items-center">
-                    <span className="text-gray-600">Pneumonia detection report generated</span>
-                    <span className="text-sm text-gray-500">4 hours ago</span>
-                  </li>
-                  <li className="flex justify-between items-center">
-                    <span className="text-gray-600">Critical case flagged (PID-6789)</span>
-                    <span className="text-sm text-gray-500">1 day ago</span>
-                  </li>
-                  {/* Add more items to test scrolling */}
-                  {[...Array(2)].map((_, i) => (
-                    <li key={i} className="flex justify-between items-center">
-                      <span className="text-gray-600">Sample activity item {i + 1}</span>
-                      <span className="text-sm text-gray-500">Just now</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-  
-              {/* Analysis Overview Chart */}
-              <div className="bg-white shadow p-6 rounded-xl">
-                <h2 className="text-xl font-bold text-gray-800 mb-4">Monthly Analysis</h2>
-                <div className="h-64 flex items-center justify-center text-gray-500">
-                  <DashboardChart />
+                <div className="flex flex-col md:flex-row w-full md:w-1/2 gap-2 mt-4">
+                  <div className="flex-1">
+                    {/* Line chart to show the number of patients seen in the last 7 days */}
+                    Line chart to show the number of patients seen in the last 7 days
+                  </div>
+                  <div className="flex-1">
+                    {/* Bar chart to show the distribution of diagnoses */}
+                    Bar chart to show the distribution of diagnoses
+                  </div>
                 </div>
               </div>
+
+
+              {/* Second section */}
+                  <div>
+                    <div>
+                      {/* Bar chart for some analysis of the data */}
+                    </div>
+                    <div>
+                      {/* Pie chart or some round stat for some analysis of the data */}
+                    </div>
+                    
+                  </div>
+
+               {                /* Third section */}
+                  <div>
+                    {/* Table to show the list of patients with their details */}
+
+                 </div>
             </div>
           </ScrollArea>
         </SidebarInset>
