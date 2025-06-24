@@ -79,7 +79,7 @@ export function RadiologistAppSidebar(
   props: React.ComponentProps<typeof Sidebar>
 ) {
   return (
-    <Sidebar {...props}>
+    <Sidebar {...props} >
       <SidebarHeader>
        
         <h2 className="text-blue-400">Radiologist Dashboard</h2>
