@@ -37,7 +37,7 @@ export default function FeaturesGrid() {
         <motion.div 
           className="absolute inset-0 bg-cover bg-center z-0"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1581595219318-04bc0b7a6d96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80')",
+            backgroundImage: "url('/image-3.jpeg')",
             y: parallaxY1
           }}
         />
@@ -79,7 +79,7 @@ export default function FeaturesGrid() {
         <motion.div 
           className="absolute inset-0 bg-cover bg-center z-0"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80')",
+            backgroundImage: "url(blank, I'm aware')",
             y: parallaxY2
           }}
         />
@@ -138,7 +138,7 @@ export default function FeaturesGrid() {
         <motion.div 
           className="absolute inset-0 bg-cover bg-center z-0"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1612531386530-97286f1f68d0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80')",
+            backgroundImage: "url('/image-1.png')",
             y: parallaxY3
           }}
         />
@@ -179,7 +179,7 @@ export default function FeaturesGrid() {
         <motion.div 
           className="absolute inset-0 bg-cover bg-center z-0"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80')",
+            backgroundImage: "url('Aware of this')",
             y: parallaxY4
           }}
         />
@@ -224,7 +224,7 @@ export default function FeaturesGrid() {
         <motion.div 
           className="absolute inset-0 bg-cover bg-center z-0"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1629909613657-27f26aec1c39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80')",
+            backgroundImage: "url('introduction.jpg')",
             y: parallaxY5
           }}
         />
@@ -271,7 +271,7 @@ export default function FeaturesGrid() {
         <motion.div 
           className="absolute inset-0 bg-cover bg-center z-0"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80')",
+            backgroundImage: "url('geez')",
             y: parallaxY6
           }}
         />

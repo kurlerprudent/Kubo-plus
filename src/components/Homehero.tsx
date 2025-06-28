@@ -5,13 +5,7 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import Link from "next/link";
 
 export function HeroSection() {
@@ -20,7 +14,7 @@ export function HeroSection() {
       {/* Background Image + Dark Overlay */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/bg1.jpg"
+          src="/image-2.jpg"
           alt="Advanced radiology equipment"
           layout="fill"
           objectFit="cover"
