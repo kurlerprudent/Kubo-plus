@@ -1,182 +1,157 @@
 // components/landing/TeamShowcase.tsx
 "use client";
 
-import { motion } from "framer-motion";
-import { Card } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Linkedin, Github } from "lucide-react";
+import { motion, useInView, stagger } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { Linkedin, Twitter, Mail } from "lucide-react";
 
-const team = [
+const teamMembers = [
   {
     name: "Nsiah Kofi Denis",
     role: "Software Engineer && Co-Founder",
     avatar: "https://via.placeholder.com/200?text=Dr.+Nsiah",
-    social: { linkedin: "#", github: "#" },
-    delay: 0.1,
+    bio: "CS major at University of Ghana. Passionate about AI in healthcare.",
   },
   {
     name: "Thomas Kangah",
     role: "CEO & Founder",
     avatar: "https://via.placeholder.com/200?text=Thomas+Kangah",
-    social: { linkedin: "#", github: "#" },
-    delay: 0.2,
+    bio: "Tech entrepreneur with 10+ years in health tech & business development.",
   },
   {
     name: "Eugene Baidoo",
     role: "Software Engineer",
     avatar: "https://via.placeholder.com/200?text=Eugene+Baidoo",
-    social: { linkedin: "#", github: "#" },
-    delay: 0.3,
+    bio: "CS major at University of Ghana. Passionate about building scalable web applications.",
   },
   {
     name: "Ryan Brown",
     role: "AI Specialist",
     avatar: "https://via.placeholder.com/200?text=Ryan+Brown",
-    social: { linkedin: "#", github: "#" },
-    delay: 0.4,
+    bio: "Statistics major at University of Ghana. Focused on machine learning and data analysis.",
   },
   {
     name: "Michael Oduro",
     role: "Radiographer",
     avatar: "https://via.placeholder.com/200?text=Michael+Oduro",
-    social: { linkedin: "#", github: "#" },
-    delay: 0.5,
+    bio: "Experienced radiographer with a focus on AI applications in medical imaging.",
   },
   {
     name: "Geraldine Essilfua Enu",
     role: "Med Lab Specialist",
-    avatar: "https://via.placeholder.com/200?text=Michael+Oduro",
-    social: { linkedin: "#", github: "#" },
-    delay: 0.5,
+    avatar: "https://via.placeholder.com/200?text=Geraldine+Essilfua+Enu",
+    bio: "Med Lab Specialist with a focus on AI applications in diagnostics.",
   },
   {
     name: "Michael Perry",
     role: "Software Engineer",
-    avatar: "https://via.placeholder.com/200?text=Michael+Oduro",
-    social: { linkedin: "#", github: "#" },
-    delay: 0.5,
+    avatar: "https://via.placeholder.com/200?text=Michael+Perry",
+    bio: "CS major at University of Ghana. Software Engineer with a passion for developing innovative AI solutions.",
   },
   {
     name: "Obed Sarkodie",
     role: "Software Engineer",
     avatar: "https://via.placeholder.com/200?text=Obed+Sarkodie",
-    social: { linkedin: "#", github: "#" },
-    delay: 0.6,
+    bio: "CS major at University of Ghana. Software Engineer with a focus on AI and web development.",
   },
 ];
 
+
 export function TeamShowcase() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
   return (
-    <section className="py-20 bg-gradient-to-b from-white to-cyan-50 dark:from-slate-950 dark:to-cyan-900/10">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section 
+      className="relative py-24 overflow-hidden bg-gradient-to-b from-slate-900/90 to-slate-800/70"
+      ref={ref}
+    >
+      {/* Animated decorative bar */}
+      <motion.div
+        initial={{ width: 0 }}
+        animate={{ 
+          width: "100%",
+          opacity: isInView ? 0.5 : 0
+        }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+        className="absolute top-24 left-0 h-1 bg-gradient-to-r from-[#2C7A7B] to-[#4FD1C5]"
+      />
+      
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true, margin: "-100px" }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
           className="text-center mb-16"
         >
-          <div className="inline-block mb-4">
-            <motion.div
-              initial={{ width: 0 }}
-              whileInView={{ width: "100%" }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="h-1 bg-cyan-500 dark:bg-cyan-400 rounded-full"
-            />
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-slate-900 dark:text-white bg-clip-text">
-            The Minds Powering Innovation
+          <h2 className="text-4xl sm:text-5xl font-bold mb-4 text-white">
+            Our AI Healthcare Pioneers
           </h2>
-          <p className="text-slate-600 dark:text-slate-300 max-w-3xl mx-auto text-lg">
-            Combining medical expertise with technical excellence to revolutionize
-            diagnostic healthcare in West Africa
+          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+            World-class team building ethical AI for Africa's healthcare transformation
           </p>
         </motion.div>
 
-        <motion.div 
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={{
-            hidden: { opacity: 0 },
-            visible: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.1
-              }
-            }
-          }}
-        >
-          {team.map((member, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {teamMembers.map((member, index) => (
             <motion.div
               key={index}
-              variants={{
-                hidden: { opacity: 0, y: 30 },
-                visible: { 
-                  opacity: 1, 
-                  y: 0,
-                  transition: { 
-                    duration: 0.6, 
-                    ease: "backOut" 
-                  } 
-                }
+              initial={{ opacity: 0, y: 50 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ 
+                delay: index * 0.15,
+                duration: 0.6,
+                type: "spring"
               }}
               whileHover={{ 
-                y: -8,
-                transition: { duration: 0.3 } 
+                y: -6,
+                scale: 1.02,
+                transition: { duration: 0.3 }
               }}
-              className="h-full"
+              className="group"
             >
-              <Card className="p-6 group bg-gradient-to-br from-white to-cyan-50 dark:from-slate-800 dark:to-slate-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center border border-slate-200 dark:border-slate-800 relative overflow-hidden">
-                {/* Decorative element */}
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-400 to-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="h-full bg-slate-800/80 backdrop-blur-sm rounded-2xl border border-slate-700/60 p-6 transition-all duration-300 group-hover:shadow-[0_0_30px_rgba(79,209,197,0.3)]">
+                {/* Avatar with teal border gradient */}
+                <div className="mb-6">
+                  <div className="relative inline-block rounded-full p-1 bg-gradient-to-br from-[#2C7A7B] to-[#4FD1C5]">
+                    <div className="bg-slate-700 rounded-full p-1">
+                      <div className="bg-gray-200 border-2 border-dashed rounded-full w-24 h-24" />
+                    </div>
+                  </div>
+                </div>
                 
-                <Avatar className="w-28 h-28 mb-5 border-4 border-white dark:border-slate-800 shadow-lg">
-                  <AvatarImage
-                    src={member.avatar}
-                    alt={member.name}
-                    className="rounded-full object-cover"
-                  />
-                  <AvatarFallback className="bg-gradient-to-br from-cyan-100 to-emerald-100 dark:from-cyan-900 dark:to-emerald-900 text-xl font-semibold text-slate-800 dark:text-white">
-                    {member.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </AvatarFallback>
-                </Avatar>
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold text-white mb-1">
+                    {member.name}
+                  </h3>
+                  <div className="w-12 h-0.5 bg-gradient-to-r from-[#2C7A7B] to-[#4FD1C5] mb-2" />
+                  <p className="text-cyan-200 font-medium">
+                    {member.role}
+                  </p>
+                </div>
                 
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">
-                  {member.name}
-                </h3>
-                <p className="text-cyan-600 dark:text-cyan-400 font-medium mb-4">
-                  {member.role}
+                <p className="text-slate-400 mb-6">
+                  {member.bio}
                 </p>
                 
-                <div className="flex justify-center gap-4 mt-2">
-                  <motion.a
-                    whileHover={{ y: -4, scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    href={member.social.linkedin}
-                    className="text-slate-500 hover:text-[#0A66C2] dark:hover:text-[#0A66C2] rounded-full bg-slate-100 dark:bg-slate-800 p-2 transition-colors"
-                    aria-label={`${member.name}'s LinkedIn`}
-                  >
-                    <Linkedin className="w-5 h-5" />
-                  </motion.a>
-                  <motion.a
-                    whileHover={{ y: -4, scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    href={member.social.github}
-                    className="text-slate-500 hover:text-slate-900 dark:hover:text-white rounded-full bg-slate-100 dark:bg-slate-800 p-2 transition-colors"
-                    aria-label={`${member.name}'s GitHub`}
-                  >
-                    <Github className="w-5 h-5" />
-                  </motion.a>
+                <div className="flex space-x-3">
+                  {[Linkedin, Twitter, Mail].map((Icon, i) => (
+                    <motion.div
+                      key={i}
+                      whileHover={{ 
+                        y: -3,
+                        backgroundColor: '#2C7A7B'
+                      }}
+                      className="p-2 rounded-full bg-slate-700 text-slate-300 cursor-pointer transition-colors"
+                    >
+                      <Icon className="w-5 h-5" />
+                    </motion.div>
+                  ))}
                 </div>
-              </Card>
+              </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

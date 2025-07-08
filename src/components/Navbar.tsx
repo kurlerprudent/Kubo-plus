@@ -19,15 +19,17 @@ export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  // Hide navbar on dashboard routes
-  if (pathname.includes("dashboard" )) return null;
-  else if (pathname.includes("login")) return null;
+ 
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+   // Hide navbar on dashboard routes
+  if (pathname.includes("dashboard" )) return null;
+  else if (pathname.includes("login")) return null;
 
   // Framer motion variants for mobile overlay
   const overlayVariants = {
