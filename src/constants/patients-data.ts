@@ -1,4 +1,4 @@
-// Define the patient data structure
+
 export interface Patient {
   id: string;
   name: string;

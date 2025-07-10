@@ -6,7 +6,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 
-// End of utility functions
 
 export function formatDate(date: string, format: string): string {
   const d = new Date(date);
@@ -16,7 +15,6 @@ export function formatDate(date: string, format: string): string {
   return d.toLocaleDateString();
 }
 
-// lib/utils.ts
 export function formatDateTime(dateString: string, timeString: string) {
   const date = new Date(`${dateString}T${timeString}`);
   return date.toLocaleDateString("en-US", {

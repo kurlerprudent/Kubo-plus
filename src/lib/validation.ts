@@ -5,9 +5,9 @@ export const phoneRegex = new RegExp(
 );
 
 export const profileSchema = z.object({
-  // ... existing profile schema
+  
 });
 
 export const securitySchema = z.object({
-  // ... existing security schema
+  
 });
