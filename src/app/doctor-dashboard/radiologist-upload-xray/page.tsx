@@ -19,6 +19,10 @@ import { AnalysisResultsSection } from "@/components/AnalysisResultsSection";
 import { SelectedFileItem } from "@/components/SelectedFileItem";
 import { UploadSection } from "@/components/UploadSection";
 import { PatientInformationForm } from "@/components/PatientInformationForm";
+import { Separator } from "@/components/ui/separator";
+import { Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import Rside from "@/components/header-right-side";
 
 const colors = {
   primaryBtn: "#00FF9C",
@@ -276,11 +280,37 @@ export default function UploadXRayPage() {
 
   return (
   <SidebarProvider>
+    
       <RadiologistAppSidebar />
-      <SidebarInset>
-        <header className="sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4 z-10 bg-gray-100">
-          {/* Header content remains the same */}
-        </header>
+      <SidebarInset className="flex flex-col h-screen">
+          <header className="bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4">
+            <SidebarTrigger className="-ml-1" />
+            <Separator orientation="vertical" className="mr-2 h-4" />
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/radiologist/dashboard">Dashboard</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Disease Predictions</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+
+            <div className="ml-auto flex items-center gap-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                type="text"
+                placeholder="Search cases..."
+                className="sm:hidden md:flex pl-10 pr-4 py-2 rounded-full bg-white/70 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-300 text-sm w-48 transition-all duration-300 hover:w-52"
+              />
+            </div>
+            
+            <Rside />
+          </div>
+          </header>
 
         <div className="flex flex-1 flex-col gap-4 p-4 overflow-y-auto min-h-screen bg-gray-50">
           <div className="p-6 rounded-xl shadow-sm border border-gray-200 bg-white">

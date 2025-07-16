@@ -133,6 +133,8 @@
   display: none;
 }
 
+
+
 /* Fix layout shifting issues */
 html {
   @apply h-full;
@@ -184,6 +186,8 @@ body {
 }
 
 
+
+
 @layer base {
   :root {
     --background: 210 40% 98%; /* Very light blue/gray */
@@ -226,6 +230,7 @@ body {
     --card-foreground: 210 40% 95%;
     /* ... and so on */
   }
+  
 }
 
 @layer base {
@@ -237,6 +242,8 @@ body {
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+
 
 .clip-path-custom {
   clip-path: polygon(0 0, 100% 0, 100% 85%, 90% 100%, 0 100%);

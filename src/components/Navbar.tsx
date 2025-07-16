@@ -30,6 +30,7 @@ export function Navbar() {
    // Hide navbar on dashboard routes
   if (pathname.includes("dashboard" )) return null;
   else if (pathname.includes("login")) return null;
+  else if (pathname.includes("sign-up")) return null;
 
   // Framer motion variants for mobile overlay
   const overlayVariants = {
