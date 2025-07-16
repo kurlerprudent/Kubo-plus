@@ -17,7 +17,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 
-import { colors } from "@/constants/colors"
+import { COLORS } from "@/constants/colors"
 
 export const description = "A bar chart showing diagnosis counts"
 
@@ -32,7 +32,7 @@ const chartConfig = {
   count: {
     label: "Cases",
     // Using your primaryBtnHover color for light blue
-    color: `#${colors.primaryBtnHover}`,
+    color: `#${COLORS.accent.primary}`,
   },
 } satisfies ChartConfig
 
@@ -40,7 +40,7 @@ export function DoctorBarChart() {
   return (
     <Card 
       className="border-none"
-      style={{ backgroundColor: `#${colors["backgrounf-3"]}` }}
+      style={{ backgroundColor: `#${COLORS.background.primary}` }}
     >
       <CardHeader>
         <CardTitle>Diagnosis Distribution</CardTitle>

@@ -17,7 +17,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 
-import { colors } from "@/constants/colors"
+import { COLORS } from "@/constants/colors"
 
 export const description = "A line chart with dots"
 
@@ -34,7 +34,7 @@ const chartData = [
 const chartConfig = {
   patients: {
     label: "Patients",
-    color: `#${colors["text-color"]}`,
+    color: `#${COLORS.text.primary}`,
   },
 } satisfies ChartConfig
 
@@ -42,7 +42,7 @@ export function DoctorLineChart() {
   return (
     <Card 
       className="border-none" 
-      style={{ backgroundColor: `#${colors["backgrounf-3"]}` }}
+      style={{ backgroundColor: `#${COLORS.background.primary}` }}
     >
       <CardHeader>
         <CardTitle>Patients</CardTitle>
