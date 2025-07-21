@@ -11,148 +11,197 @@ interface PatientInformationFormProps {
 
 export const PatientInformationForm = ({ patientInfo }: PatientInformationFormProps) => (
   <motion.div 
-    className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 p-6 rounded-xl border"
-    style={{ backgroundColor: COLORS.background.secondary, borderColor: COLORS.border }}
+    className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 p-8 rounded-2xl border"
+    style={{ 
+      backgroundColor: COLORS.background.secondary, 
+      borderColor: COLORS.border,
+      boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.08)"
+    }}
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.3 }}
+    transition={{ duration: 0.4, ease: "easeOut" }}
   >
-    <div className="md:col-span-2">
-      <h2 className="text-lg font-semibold mb-4" style={{ color: COLORS.text.primary }}>
-        Patient Information
+    {/* Form Header */}
+    <div className="md:col-span-2 mb-2">
+      <h2 className="text-xl font-bold tracking-tight" style={{ color: COLORS.text.primary }}>
+        PATIENT INFORMATION
       </h2>
+      <div className="h-1 w-16 bg-blue-500 mt-2 rounded-full"></div>
+      <p className="mt-3 text-slate-500 text-sm max-w-2xl">
+        Complete all required fields to proceed with the diagnostic analysis. 
+        Fields marked with <span className="text-red-500">*</span> are mandatory.
+      </p>
     </div>
 
-    <div className="space-y-3">
-      <Label htmlFor="patientName" className="font-medium">
-        Patient Name
+    {/* Personal Information Group */}
+    <div className="md:col-span-2">
+      <h3 className="font-semibold text-slate-700 mb-4 flex items-center">
+        <span className="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">1</span>
+        Personal Information
+      </h3>
+    </div>
+    
+    <div className="space-y-2">
+      <Label htmlFor="patientName" className="font-semibold flex">
+        Full Name <span className="text-red-500 ml-1">*</span>
       </Label>
       <Input
         id="patientName"
         value={patientInfo.patientName}
         onChange={(e) => patientInfo.setPatientName(e.target.value)}
-        placeholder="John Doe"
-        className="bg-white"
+        placeholder="Johnathan Doe"
+        className="bg-white border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
       />
     </div>
 
-    <div className="space-y-3">
-      <Label htmlFor="patientId" className="font-medium">
-        Patient ID
+    <div className="space-y-2">
+      <Label htmlFor="patientId" className="font-semibold flex">
+        Patient ID <span className="text-red-500 ml-1">*</span>
       </Label>
       <Input
         id="patientId"
         value={patientInfo.patientId}
         onChange={(e) => patientInfo.setPatientId(e.target.value)}
         placeholder="ID-12345"
-        className="bg-white"
+        className="bg-white border-slate-300 font-mono"
       />
     </div>
 
-    <div className="space-y-3">
-      <Label htmlFor="dob" className="font-medium">
-        Date of Birth
+    <div className="space-y-2">
+      <Label htmlFor="dob" className="font-semibold flex">
+        Date of Birth <span className="text-red-500 ml-1">*</span>
       </Label>
       <Input
         id="dob"
         type="date"
         value={patientInfo.dob}
         onChange={(e) => patientInfo.setDob(e.target.value)}
-        className="bg-white"
+        className="bg-white border-slate-300"
       />
     </div>
 
-    <div className="space-y-3">
-      <Label className="font-medium block">Age</Label>
-      <div className="px-3 py-2 bg-gray-100 rounded-md text-gray-700">
-        {patientInfo.age || "N/A"}
+    <div className="space-y-2">
+      <Label className="font-semibold">Calculated Age</Label>
+      <div className="px-4 py-3 bg-blue-50 rounded-lg text-blue-800 font-medium border border-blue-100">
+        {patientInfo.age ? `${patientInfo.age} years` : "Enter date of birth"}
       </div>
     </div>
 
-    <div className="space-y-3">
-      <Label className="font-medium block">Sex</Label>
+    {/* Demographic Information Group */}
+    <div className="md:col-span-2 mt-4">
+      <h3 className="font-semibold text-slate-700 mb-4 flex items-center">
+        <span className="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">2</span>
+        Demographic Information
+      </h3>
+    </div>
+    
+    <div className="space-y-3 md:col-span-2">
+      <Label className="font-semibold block mb-2">Gender</Label>
       <RadioGroup 
         value={patientInfo.sex} 
         onValueChange={patientInfo.setSex}
-        className="flex space-x-4"
+        className="flex flex-wrap gap-4"
       >
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="male" id="male" />
-          <Label htmlFor="male">Male</Label>
-        </div>
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="female" id="female" />
-          <Label htmlFor="female">Female</Label>
-        </div>
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="other" id="other" />
-          <Label htmlFor="other">Other</Label>
-        </div>
+        {[
+          { value: "male", label: "Male" },
+          { value: "female", label: "Female" },
+          { value: "other", label: "Other" }
+        ].map((option) => (
+          <div key={option.value} className="flex items-center">
+            <RadioGroupItem 
+              value={option.value} 
+              id={option.value}
+              className="text-blue-600 border-slate-400 h-5 w-5"
+            />
+            <Label 
+              htmlFor={option.value} 
+              className="ml-2 font-medium text-slate-700 cursor-pointer"
+            >
+              {option.label}
+            </Label>
+          </div>
+        ))}
       </RadioGroup>
     </div>
 
-    <div className="space-y-3 md:col-span-2">
-      <Label htmlFor="clinicalHistory" className="font-medium">
+    {/* Clinical Information Group */}
+    <div className="md:col-span-2 mt-4">
+      <h3 className="font-semibold text-slate-700 mb-4 flex items-center">
+        <span className="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">3</span>
+        Clinical Information
+      </h3>
+    </div>
+    
+    <div className="space-y-2 md:col-span-2">
+      <Label htmlFor="clinicalHistory" className="font-semibold">
         Clinical History
       </Label>
       <Input
         id="clinicalHistory"
         value={patientInfo.clinicalHistory}
         onChange={(e) => patientInfo.setClinicalHistory(e.target.value)}
-        placeholder="Patient symptoms and medical history"
-        className="bg-white"
+        placeholder="Patient symptoms, medical history, and relevant notes"
+        className="bg-white border-slate-300"
       />
     </div>
 
-    <div className="space-y-3">
-      <Label htmlFor="suspectedDisease" className="font-medium">
-        Suspected Disease
+    <div className="space-y-2">
+      <Label htmlFor="suspectedDisease" className="font-semibold">
+        Suspected Condition
       </Label>
       <Input
         id="suspectedDisease"
         value={patientInfo.suspectedDisease}
         onChange={(e) => patientInfo.setSuspectedDisease(e.target.value)}
-        placeholder="Pneumonia"
-        className="bg-white"
+        placeholder="Pneumonia, Tuberculosis, etc."
+        className="bg-white border-slate-300"
       />
     </div>
 
-    <div className="space-y-3">
-      <Label htmlFor="examDate" className="font-medium">
-        Exam Date
+    {/* Examination Details Group */}
+    <div className="md:col-span-2 mt-4">
+      <h3 className="font-semibold text-slate-700 mb-4 flex items-center">
+        <span className="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">4</span>
+        Examination Details
+      </h3>
+    </div>
+    
+    <div className="space-y-2">
+      <Label htmlFor="examDate" className="font-semibold flex">
+        Exam Date <span className="text-red-500 ml-1">*</span>
       </Label>
       <Input
         id="examDate"
         type="date"
         value={patientInfo.examDate}
         onChange={(e) => patientInfo.setExamDate(e.target.value)}
-        className="bg-white"
+        className="bg-white border-slate-300"
       />
     </div>
 
-    <div className="space-y-3">
-      <Label htmlFor="view" className="font-medium">
-        View
+    <div className="space-y-2">
+      <Label htmlFor="view" className="font-semibold">
+        Imaging View
       </Label>
       <Input
         id="view"
         value={patientInfo.view}
         onChange={(e) => patientInfo.setView(e.target.value)}
-        placeholder="PA"
-        className="bg-white"
+        placeholder="PA, Lateral, etc."
+        className="bg-white border-slate-300"
       />
     </div>
 
-    <div className="space-y-3 md:col-span-2">
-      <Label htmlFor="radiologistName" className="font-medium">
-        Radiologist Name
+    <div className="space-y-2 md:col-span-2">
+      <Label htmlFor="radiologistName" className="font-semibold">
+        Referring Radiologist
       </Label>
       <Input
         id="radiologistName"
         value={patientInfo.radiologistName}
         onChange={(e) => patientInfo.setRadiologistName(e.target.value)}
         placeholder="Dr. Jane Smith"
-        className="bg-white"
+        className="bg-white border-slate-300"
       />
     </div>
   </motion.div>

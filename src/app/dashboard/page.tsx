@@ -1,4 +1,7 @@
-// pages/dashboard/patient/index.tsx
+// app/dashboard/patient/page.tsx
+'use client';
+
+import { useState } from 'react';
 import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,
@@ -14,9 +17,17 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import DashboardChart from "@/components/DashboardChart";
+import { usePatientDashboardData } from '@/hooks/usePatientDashboardData';
+import { MetricCard } from "@/components/MetricCard"
+import { RecentActivity } from '@/components/RecentActivity';
+import  AppointmentsTable  from '@/components/AppointmentsTable';
+import DashboardChart from '@/components/DashboardChart';
+import { Calendar, FileText, Stethoscope } from 'lucide-react';
+import { ChartTypeSelector } from '@/components/ChartTypeSelector';
 
 export default function Page() {
+  const { data, isLoading } = usePatientDashboardData();
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -35,61 +46,79 @@ export default function Page() {
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
+
+
         </header>
+        
         <div className="flex flex-1 flex-col gap-4 p-4 overflow-y-auto">
           {/* Metrics Section */}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <div className="bg-white shadow p-6 rounded-xl flex flex-col items-center">
-              <span className="text-lg font-semibold text-gray-700">Reports</span>
-              <span className="text-3xl font-bold text-blue-600 mt-2">8</span>
+            <MetricCard 
+              title="Upcoming Appointments"
+              value={isLoading ? '--' : data?.metrics?.appointments}
+              icon={<Calendar className="h-6 w-6" />}
+              isLoading={isLoading}
+            />
+            <MetricCard 
+              title="Recent Reports"
+              value={isLoading ? '--' : data?.metrics?.reports}
+              icon={<FileText className="h-6 w-6" />}
+              isLoading={isLoading}
+            />
+            <MetricCard 
+              title="Completed Visits"
+              value={isLoading ? '--' : data?.metrics?.visits}
+              icon={<Stethoscope className="h-6 w-6" />}
+              isLoading={isLoading}
+            />
+          </div>
+
+          {/* Chart and Activity Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {/* Chart Section */}
+            <div className="bg-white shadow p-6 rounded-xl">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold text-gray-800">
+                  Health Metrics
+                </h2>
+                <ChartTypeSelector />
+              </div>
+              <div className="h-64">
+                <DashboardChart data={data?.chartData} isLoading={isLoading} chartType="line" />
+              </div>
             </div>
-            <div className="bg-white shadow p-6 rounded-xl flex flex-col items-center">
-              <span className="text-lg font-semibold text-gray-700">
-                Appointments
-              </span>
-              <span className="text-3xl font-bold text-blue-600 mt-2">3</span>
-            </div>
-            <div className="bg-white shadow p-6 rounded-xl flex flex-col items-center">
-              <span className="text-lg font-semibold text-gray-700">
-                Upcoming Visits
-              </span>
-              <span className="text-3xl font-bold text-blue-600 mt-2">2</span>
+            
+            {/* Recent Activity */}
+            <div className="bg-white shadow p-6 rounded-xl">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold text-gray-800">
+                  Recent Activity
+                </h2>
+                <button className="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                  View All
+                </button>
+              </div>
+              <RecentActivity 
+                activities={data?.recentActivity || []} 
+                isLoading={isLoading}
+              />
             </div>
           </div>
 
-          {/* Recent Activity Section */}
+          {/* Appointments Table */}
           <div className="bg-white shadow p-6 rounded-xl">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">
-              Recent Activity
-            </h2>
-            <ul className="space-y-3">
-              <li className="flex justify-between items-center">
-                <span className="text-gray-600">
-                  Report "Chest X-Ray" uploaded
-                </span>
-                <span className="text-sm text-gray-500">2 hours ago</span>
-              </li>
-              <li className="flex justify-between items-center">
-                <span className="text-gray-600">
-                  Appointment scheduled with Dr. Mensah
-                </span>
-                <span className="text-sm text-gray-500">Yesterday</span>
-              </li>
-              <li className="flex justify-between items-center">
-                <span className="text-gray-600">Profile updated</span>
-                <span className="text-sm text-gray-500">3 days ago</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Dashboard Overview / Chart Section */}
-          <div className="bg-white shadow p-6 rounded-xl">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">
-              Dashboard Overview
-            </h2>
-            <div className="h-64 flex items-center justify-center text-gray-500">
-              <DashboardChart />
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold text-gray-800">
+                Appointment History
+              </h2>
+              <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors">
+                Export to CSV
+              </button>
             </div>
+            <AppointmentsTable 
+              appointments={data?.appointments || []} 
+              isLoading={isLoading}
+            />
           </div>
         </div>
       </SidebarInset>

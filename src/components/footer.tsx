@@ -4,7 +4,13 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Linkedin, Github, Twitter, Mail } from "lucide-react";
-import { navItems } from "./Navbar";
+
+const navItems = [
+  { name: "Home", path: "/" },
+  { name: "About Us", path: "/about" },
+  { name: "Services", path: "/services" },
+  { name: "Contact", path: "/contact" },
+];
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -12,7 +18,7 @@ export function Footer() {
   return (
     <footer className="bg-gradient-to-b from-slate-900 to-slate-950 text-white pt-20 pb-10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-16 pr-4">
           {/* Brand Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -21,7 +27,7 @@ export function Footer() {
             viewport={{ once: true }}
           >
             <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">
-              MedAI Diagnostics
+              HTA
             </h3>
             <p className="text-slate-400 mb-6 max-w-xs">
               Revolutionizing healthcare in West Africa through AI-powered diagnostic solutions.

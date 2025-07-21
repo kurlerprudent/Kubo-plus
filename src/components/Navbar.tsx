@@ -1,256 +1,289 @@
 // components/landing/Navbar.tsx
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu as MenuIcon, X as XIcon } from "lucide-react";
+import { motion, AnimatePresence, Variants } from "framer-motion";
+import { Menu, X } from "lucide-react";
 
-export const navItems = [
-  { name: "Home", path: "/" },
-  {name: "News", path: "/news"},
-  {name: "Contact", path: "/contact"},
-];
+const NavLink = ({ href, children }: { href: string; children: string }) => {
+  const pathname = usePathname();
+  const isActive = pathname === href;
 
-export function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  return (
+    <motion.div
+      className="relative"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      <Link
+        href={href}
+        className={`px-3 py-2 text-lg font-medium transition-colors ${
+          isActive
+            ? "text-blue-600 dark:text-blue-400"
+            : "text-slate-800 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400"
+        }`}
+      >
+        {children}
+      </Link>
+
+      {isActive && (
+        <motion.div
+          layoutId="nav-underline"
+          className="absolute bottom-0 left-0 h-0.5 w-full bg-blue-600 dark:bg-blue-400"
+          initial={false}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        />
+      )}
+    </motion.div>
+  );
+};
+
+const mobileMenuVariants: Variants = {
+  hidden: { opacity: 0, x: "100%" },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.3,
+      ease: "easeOut",
+    },
+  },
+  exit: {
+    opacity: 0,
+    x: "100%",
+    transition: {
+      duration: 0.2,
+      ease: "easeIn",
+    },
+  },
+};
+
+const menuItemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.1,
+      duration: 0.3,
+    },
+  }),
+};
+
+export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  const toggleMenu = () => setIsOpen(!isOpen);
+  const closeMenu = () => setIsOpen(false);
   const pathname = usePathname();
 
- 
-
-  useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  
 
    // Hide navbar on dashboard routes
   if (pathname.includes("dashboard" )) return null;
   else if (pathname.includes("login")) return null;
   else if (pathname.includes("sign-up")) return null;
 
-  // Framer motion variants for mobile overlay
-  const overlayVariants = {
-    hidden: { x: "100%", opacity: 0 },
-    visible: { x: 0, opacity: 1 },
-    exit: { x: "100%", opacity: 0 },
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      setHasScrolled(window.scrollY > 30);
+    };
 
-  const linkVariants = {
-    hidden: { x: -20, opacity: 0 },
-    visible: (i: number) => ({
-      x: 0,
-      opacity: 1,
-      transition: { delay: i * 0.1 + 0.2 },
-    }),
-  };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeMenu();
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    closeButtonRef.current?.focus();
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  const navLinks = [
+    { href: "/news", label: "News" },
+    { href: "/pricing", label: "Pricing" },
+    { href: "/security", label: "Security" },
+    { href: "/contact", label: "Contact-us" },
+  ];
 
   return (
     <>
-      <nav
-        className={`
-          fixed top-0 left-0 w-full z-50 transition-all duration-300
-          ${isScrolled
-            ? "backdrop-blur-md bg-white/70 shadow-sm h-14"
-            : "bg-transparent h-20"
-          }
-        `}
+      {/* Navbar */}
+      <motion.nav
+        ref={navRef}
+        aria-label="Main navigation"
+        className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+          hasScrolled
+            ? "bg-white/90 backdrop-blur-md shadow-sm dark:bg-slate-900/90"
+            : "bg-transparent"
+        }`}
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.3 }}
       >
-        <div className="max-w-7xl mx-auto h-full flex items-center justify-between px-4 sm:px-6 lg:px-8">
-          {/* Logo */}
-          <Link href="/">
-            <div className="flex items-center gap-2">
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="flex-shrink-0"
-              >
-             
-               
-              </motion.div>
-              <span
-                className={`
-                  text-xl sm:text-2xl font-bold transition-colors
-                  ${isScrolled ? "text-slate-800" : "text-white"}
-                `}
-              >
-                HTECH 4 AFRICA
-              </span>
-            </div>
-          </Link>
+        <div className="container mx-auto px-4">
+          <div className="flex h-20 items-center justify-between">
+            {/* Logo */}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center"
+            >
+              <Link href="/" className="flex items-center" onClick={closeMenu}>
+                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-2xl font-bold tracking-tighter text-transparent dark:from-blue-400 dark:to-purple-400">
+                  HTA
+                </span>
+              </Link>
+            </motion.div>
 
-          {/* Desktop Links */}
-          <div className="hidden md:flex items-center space-x-10">
-            {navItems.map((item) => {
-              const active = pathname === item.path;
-              return (
-                <Link key={item.path} href={item.path}>
-                  <p className="relative group">
-                    <span
-                      className={`
-                        text-base sm:text-lg font-medium transition-colors
-                        ${active
-                          ? "text-blue-600"
-                          : isScrolled
-                          ? "text-slate-700 hover:text-slate-900"
-                          : "text-white hover:text-white/80"
-                        }
-                      `}
-                    >
-                      {item.name}
-                    </span>
-                    <span
-                      className={`
-                        absolute left-0 bottom-[-2px] h-[2px] bg-blue-600
-                        transition-all duration-300 ease-in-out
-                        ${active ? "w-full" : "group-hover:w-full w-0"}
-                      `}
-                    />
-                  </p>
+            {/* Desktop Nav */}
+            <div className="hidden items-center space-x-2 md:flex">
+              {navLinks.map((link) => (
+                <NavLink key={link.href} href={link.href}>
+                  {link.label}
+                </NavLink>
+              ))}
+
+              <div className="ml-4 flex items-center space-x-3">
+                <Link
+                  href="/login"
+                  className="px-4 py-2 font-medium text-slate-800 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400"
+                >
+                  Login
                 </Link>
-              );
-            })}
-          </div>
 
-          {/* Desktop Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Link href="/login">
-              <p
-                className={`
-                  px-4 py-2 text-base font-medium transition-colors
-                  ${isScrolled
-                    ? "text-slate-700 hover:text-slate-900"
-                    : "text-white hover:text-white/80"
-                  }
-                `}
-              >
-                Login
-              </p>
-            </Link>
-            <Link href="/login">
-              <motion.p
-                whileHover={{ scale: 1.05 }}
-                className={`
-                  bg-gradient-to-r from-blue-500 to-cyan-500
-                  hover:from-blue-600 hover:to-cyan-600
-                  text-white text-base font-medium px-5 py-2 
-                  rounded-full shadow-md
-                  transition-transform duration-200 ease-in-out
-                `}
-              >
-                Get Started
-              </motion.p>
-            </Link>
-          </div>
+                <motion.button
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0 0 20px 5px rgba(59, 130, 246, 0.3)",
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  className="rounded-full bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-2 font-semibold text-white shadow-lg"
+                >
+                  <Link href="/sign-up">Get Started</Link>
+                </motion.button>
+              </div>
+            </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMenuOpen(true)}
-            className={`
-              md:hidden focus:outline-none transition-colors
-              ${isScrolled ? "text-slate-700" : "text-white"}
-            `}
-            aria-label="Open menu"
-          >
-            <MenuIcon className="h-6 w-6" />
-          </button>
+            {/* Mobile Menu Button */}
+            <button
+              type="button"
+              aria-label={isOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isOpen}
+              className="rounded-md p-2 text-slate-800 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-300 dark:hover:bg-slate-800 md:hidden"
+              onClick={toggleMenu}
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
-      </nav>
+      </motion.nav>
 
-      {/* Mobile Fullscreen Overlay */}
+      {/* Mobile Overlay */}
       <AnimatePresence>
-        {menuOpen && (
+        {isOpen && (
           <motion.div
-            key="overlay"
-            variants={overlayVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
-            transition={{ type: "tween", duration: 0.3 }}
-            className="fixed inset-0 z-50 bg-white/95 backdrop-blur-lg flex flex-col"
+            variants={mobileMenuVariants}
+            className="fixed inset-0 z-40 h-screen w-full bg-white dark:bg-slate-900 overflow-x-hidden md:hidden"
+            aria-modal="true"
+            role="dialog"
           >
-            <div className="flex items-center justify-between px-6 py-4 border-b">
-              <Link href="/">
-                <p
-                  className="flex items-center gap-2"
-                  onClick={() => setMenuOpen(false)}
-                >
-               
-                  <span className="text-xl font-bold text-slate-800">
-                    HTECH 4 AFRICA
+            <div className="flex h-full flex-col">
+              {/* Header */}
+              <div className="flex h-20 items-center justify-between px-4">
+                <Link href="/" className="flex items-center" onClick={closeMenu}>
+                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-2xl font-bold tracking-tighter text-transparent dark:from-blue-400 dark:to-purple-400">
+                    HTA
                   </span>
-                </p>
-              </Link>
+                </Link>
 
-              <button
-                onClick={() => setMenuOpen(false)}
-                className="focus:outline-none text-slate-800"
-                aria-label="Close menu"
+                <button
+                  ref={closeButtonRef}
+                  type="button"
+                  aria-label="Close menu"
+                  className="rounded-md p-2 text-slate-800 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-300 dark:hover:bg-slate-800"
+                  onClick={closeMenu}
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              {/* Mobile Nav */}
+              <motion.div
+                className="flex-1 space-y-1 overflow-y-auto px-4 py-8"
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  visible: {
+                    transition: {
+                      staggerChildren: 0.07,
+                      delayChildren: 0.2,
+                    },
+                  },
+                }}
               >
-                <XIcon className="h-6 w-6" />
-              </button>
-            </div>
-
-            <div className="mt-10 px-6 flex flex-col space-y-6">
-              {navItems.map((item, idx) => {
-                const active = pathname === item.path;
-                return (
+                {navLinks.map((link, index) => (
                   <motion.div
-                    key={item.path}
-                    custom={idx}
-                    variants={linkVariants}
-                    initial="hidden"
-                    animate="visible"
+                    key={link.href}
+                    variants={menuItemVariants}
+                    custom={index}
                   >
-                    <Link href={item.path}>
-                      <p
-                        className={`
-                          block text-2xl font-semibold transition-colors
-                          ${active
-                            ? "text-blue-600"
-                            : "text-slate-800 hover:text-slate-600"
-                          }
-                        `}
-                        onClick={() => setMenuOpen(false)}
-                      >
-                        {item.name}
-                      </p>
+                    <Link
+                      href={link.href}
+                      className="block rounded-lg px-4 py-4 text-2xl font-medium text-slate-800 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+                      onClick={closeMenu}
+                    >
+                      {link.label}
                     </Link>
                   </motion.div>
-                );
-              })}
-            </div>
+                ))}
+              </motion.div>
 
-            <div className="mt-auto px-6 pb-10 flex flex-col space-y-4">
-              <Link href="/login">
-                <p
-                  className="px-4 py-3 text-center text-base font-medium 
-                             text-slate-800 hover:text-slate-600 transition-colors
-                             border border-slate-300 rounded-md"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  Login
-                </p>
-              </Link>
-
+              {/* CTA Section */}
               <motion.div
-                whileHover={{ scale: 1.03 }}
-                className="w-full"
+                className="border-t p-6 dark:border-slate-800"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
               >
-                <Link href="/login">
-                  <p
-                    className="block text-center bg-gradient-to-r from-blue-500 to-cyan-500 
-                               hover:from-blue-600 hover:to-cyan-600 
-                               text-white text-base font-medium px-4 py-3 
-                               rounded-full shadow-md transition-transform duration-200 ease-in-out"
-                    onClick={() => setMenuOpen(false)}
+                <div className="mb-4 flex flex-col space-y-3">
+                  <Link
+                    href="/login"
+                    className="w-full rounded-lg px-4 py-3 text-center font-medium text-slate-800 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+                    onClick={closeMenu}
                   >
-                    Get Started
-                  </p>
-                </Link>
+                    Login
+                  </Link>
+
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full rounded-full bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4 text-xl font-bold text-white shadow-lg"
+                  >
+                    <Link href="/sign-up" onClick={closeMenu}>
+                      Get Started
+                    </Link>
+                  </motion.button>
+                </div>
               </motion.div>
             </div>
           </motion.div>

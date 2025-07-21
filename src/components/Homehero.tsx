@@ -90,7 +90,7 @@ export function HeroSection() {
                 asChild
                 className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white text-lg px-8 py-6 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 group"
               >
-                <Link href="/login">
+                <Link href="/sign-up">
                   <span className="mr-3">Get Started</span>
                   <span className="inline-block group-hover:translate-x-1 transition-transform">
                     →
@@ -103,7 +103,7 @@ export function HeroSection() {
                 variant="outline"
                 className="text-white text-lg px-8 py-6 rounded-lg bg-transparent border-white/30 hover:bg-white/10 hover:border-white/50 transition-colors duration-300"
               >
-                <Link href="/learn-more">
+                <Link href="/demo">
                   <span>View Demo</span>
                 </Link>
               </Button>
