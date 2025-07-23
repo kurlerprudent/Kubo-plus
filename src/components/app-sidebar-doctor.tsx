@@ -20,6 +20,7 @@ const NAV_ITEMS = [
   { title: "Dashboard", url: "/doctor-dashboard", icon: Home },
   { title: "Upload X-Ray", url: "/doctor-dashboard/radiologist-upload-xray", icon: UploadCloud },
   { title: "History", url: "/doctor-dashboard/radiologist-history", icon: Clock },
+  { title: "Appointment", url: "/doctor-dashboard/appointments", icon: Clock },
   { title: "Messages", url: "/doctor-dashboard/message", icon: MessageCircle },
   { title: "Settings", url: "/doctor-dashboard/radiologist-settings", icon: Settings },
   { title: "Profile", url: "/doctor-dashboard/radiologist-profile", icon: User },
@@ -41,13 +42,8 @@ export function RadiologistAppSidebar(props: React.ComponentProps<typeof Sidebar
           >
             Radiologist Dashboard
           </motion.h2>
-          <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            aria-label="Toggle theme"
-            className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-          </button>
+         <div>
+          </div>
         </div>
       </SidebarHeader>
 

@@ -103,6 +103,9 @@ export default function Navbar() {
     mounted &&
     (pathname.includes("/dashboard") ||
       pathname.includes("/login") ||
+      pathname.includes("/doctor-dashboard") ||
+      pathname.includes("/admin-dashboard") ||
+      pathname.includes("/superadmin-dashboard") ||
       pathname.includes("/sign-up"))
   ) {
     return null;

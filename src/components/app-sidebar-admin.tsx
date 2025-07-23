@@ -38,7 +38,7 @@ const dataAdmin = [
   { title: "Activity Log", url: "/admin-dashboard/activity-log", icon: ClipboardList },
   { title: "Settings", url: "/admin-dashboard/settings", icon: Settings },
   { title: "Profile", url: "/admin-dashboard/profile", icon: User }, // Admin's own profile
-  { title: "Logout", url: "/logout", icon: LogOut }, ]
+  { title: "Logout", url: "/", icon: LogOut }, ]
 
 export function AdminAppSidebar(
   props: React.ComponentProps<typeof Sidebar>
