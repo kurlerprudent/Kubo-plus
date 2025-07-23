@@ -1,111 +1,150 @@
+"use client"
+import React from 'react';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
+import { Button } from '@/components/ui/button';
+import {
+  ArrowLeft,
+  ShieldCheck,
+  Fingerprint,
+  KeyRound,
+  DownloadCloud,
+  Plus,
+  Minus,
+} from 'lucide-react';
 
+// Animation variants
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 },
+};
 
-import { Button } from "@/components/ui/button";
-import { SecurityAlert } from "@/components/SecurityAlert";
-import { FaqAccordion } from "@/components/Faq";
-import Link from "next/link";
-import { Download } from "lucide-react";
+const faqs = [
+  {
+    question: 'Is patient data encrypted?',
+    answer:
+      'Yes, all patient data is encrypted at rest and in transit using industry-standard AES-256 and TLS 1.3 protocols.',
+  },
+  {
+    question: 'Do we share medical images?',
+    answer:
+      'No, medical images are never shared with third parties without explicit consent from the patient.',
+  },
+  {
+    question: 'How do we ensure compliance?',
+    answer:
+      'We adhere to HIPAA and GDPR regulations, performing regular audits and vulnerability assessments.',
+  },
+];
 
 export default function SecurityPage() {
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 p-6">
+    <div className="min-h-screen bg-gradient-to-b from-[#0f172a] to-[#1e293b] text-white pt-20 px-4 md:px-16">
+      
+
       {/* Hero Section */}
-      <section className="max-w-4xl mx-auto text-center mb-12">
-        <h1 className="text-4xl font-extrabold mb-2">Security &amp; Confidentiality</h1>
-        <p className="text-lg text-gray-600 dark:text-gray-300">
-          How we protect your patients’ data with industry-standard practices.
-        </p>
-      </section>
+      <motion.section
+        className="flex flex-col items-center text-center py-20"
+        initial="hidden"
+        animate="show"
+        variants={container}
+      >
+        <motion.h1
+          className="text-4xl md:text-6xl font-semibold tracking-wide"
+          variants={item}
+          whileHover={{ scale: 1.02, textShadow: '0 0 10px rgb(14,165,233)' }}
+        >
+          Your Data is Safe with Us
+        </motion.h1>
+        <motion.p
+          className="mt-4 text-xl text-sky-300"
+          variants={item}
+        >
+          We protect your information with cutting-edge security measures.
+        </motion.p>
+        {/* Optional SVG decoration could go here */}
+      </motion.section>
 
-      {/* Alert Banner */}
-      <div className="max-w-4xl mx-auto mb-8">
-        <SecurityAlert />
-      </div>
+      {/* Features Grid */}
+      <motion.section
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-20"
+        initial="hidden"
+        animate="show"
+        variants={container}
+      >
+        {[
+          { Icon: ShieldCheck, title: 'Secure Encryption', desc: 'AES-256 bit encryption for all data.' },
+          { Icon: Fingerprint, title: 'Strong Password Hashing', desc: 'Your passwords are are not made visible to anyone.' },
+          { Icon: KeyRound, title: 'Key Management', desc: 'Secure key rotation and storage.' },
+          { Icon: ShieldCheck, title: 'Continuous Monitoring', desc: '24/7 threat detection.' },
+        ].map(({ Icon, title, desc }, i) => (
+          <motion.div key={i} variants={item}>
+            <Card className="hover:scale-105 hover:border hover:border-sky-500 transition-transform">
+              <CardHeader>
+                <Icon className="mx-auto text-sky-400" size={32} />
+                <CardTitle className="mt-2 text-center">{title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-center">{desc}</CardDescription>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
+      </motion.section>
 
-      {/* Two-Column Layout */}
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Left Narrative */}
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Data Encryption</CardTitle>
-            </CardHeader>
-            <CardContent>
-              We enforce TLS 1.2+ for all in-transit data and AES-256 encryption at rest, ensuring your X-rays and reports are always secure.
-            </CardContent>
-          </Card>
+      {/* FAQ Accordion */}
+      <motion.section
+        className="max-w-3xl mx-auto mb-20"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0, transition: { duration: 0.6 } }}
+      >
+        <Accordion type="single" collapsible>
+          {faqs.map((faq, idx) => (
+            <AccordionItem key={idx} value={`item-${idx}`}>
+              <AccordionTrigger className="group">
+                <span>{faq.question}</span>
+                <motion.span
+                  className="ml-auto"
+                  whileHover={{ scale: 1.1 }}
+                >
+                  <Plus className="group-data-[state=open]:hidden" />
+                  <Minus className="hidden group-data-[state=open]:inline" />
+                </motion.span>
+              </AccordionTrigger>
+              <AccordionContent className="text-sky-200">
+                {faq.answer}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </motion.section>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Access Controls</CardTitle>
-            </CardHeader>
-            <CardContent>
-              Role-based access, mandatory multi-factor authentication (MFA), and automatic session timeouts keep unauthorized users out.
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Audit Logging</CardTitle>
-            </CardHeader>
-            <CardContent>
-              We log all logins, data exports, and report generations. Logs are retained securely for 90 days to support audits and investigations.
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Data Minimization</CardTitle>
-            </CardHeader>
-            <CardContent>
-              Only the data necessary for diagnostic and treatment workflows is collected and retained according to our strict retention policy.
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Third-Party Compliance</CardTitle>
-            </CardHeader>
-            <CardContent>
-              Our cloud and AI providers are HIPAA and GDPR compliant, holding SOC 2 Type II and ISO 27001 certifications.
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Incident Response</CardTitle>
-            </CardHeader>
-            <CardContent>
-              We maintain a 24/7 monitoring and incident response team. Detected issues are escalated immediately and resolved within defined SLAs.
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Right Interactive FAQ */}
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Frequently Asked Questions</h2>
-          <FaqAccordion />
-          <div className="mt-6">
-            <Button
-              asChild
-              className="flex items-center gap-2"
-            >
-              <a href="/security-policy.pdf" download>
-                <Download className="w-5 h-5" />
-                Download Full Security Policy
-              </a>
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Back Link */}
-      <div className="max-w-4xl mx-auto mt-12 text-center">
-        <Link href="/">← Back to Home</Link>
-      </div>
-    </main>
+      {/* CTA Section */}
+      <motion.section
+        className="text-center mb-20"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { delay: 0.8 } }}
+      >
+        <Button
+          size="lg"
+          className="relative overflow-hidden border border-sky-500 hover:shadow-lg hover:shadow-sky-500/50"
+        >
+          <DownloadCloud className="mr-2" />
+          Download Full Security Policy
+        </Button>
+      </motion.section>
+    </div>
   );
 }
-
