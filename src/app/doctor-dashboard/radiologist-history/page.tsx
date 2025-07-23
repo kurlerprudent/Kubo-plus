@@ -14,6 +14,7 @@ import {
   import { Clock, AlertCircle, CheckCircle2, Hourglass, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Rside from "@/components/header-right-side";
+import { COLORS } from "@/constants/colors";
   
   const statusIcons = {
     completed: CheckCircle2,
@@ -78,7 +79,10 @@ import Rside from "@/components/header-right-side";
           </header>
   
           <ScrollArea className="flex-1">
-            <div className="flex flex-col gap-4 p-4">
+            <div className="flex flex-col gap-4 p-4" style={{ backgroundColor: COLORS.background.primary }}>
+              <div className="p-6 rounded-xl shadow-sm border" style={{ backgroundColor: COLORS.background.primary, borderColor: COLORS.border }}>
+                <h1 className="text-2xl font-bold mb-6" style={{ color: COLORS.text.primary }}>Radiologist Case History</h1>
+              </div>
               {/* History Timeline Section */}
               <div className="bg-white shadow p-6 rounded-xl">
                 <h1 className="text-2xl font-bold mb-6">Case History</h1>

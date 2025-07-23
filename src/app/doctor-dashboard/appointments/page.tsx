@@ -21,6 +21,10 @@ import { DoctorAppointmentList } from "@/components/appointments/doctor/DoctorAp
 import { DoctorAppointment, DoctorAppointmentStatus, DoctorAppointmentStatusFilter } from "@/components/appointments/doctor/types";
 import { v4 as uuidv4 } from 'uuid';
 import { RadiologistAppSidebar } from "@/components/app-sidebar-doctor";
+import { COLORS } from "@/constants/colors";
+import Rside from "@/components/header-right-side";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 
 const mockAppointments: DoctorAppointment[] = [
   {
@@ -112,14 +116,26 @@ export default function DoctorAppointmentsPage() {
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
+            <div className="ml-auto flex items-center gap-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                type="text"
+                placeholder="Search cases..."
+                className="sm:hidden md:flex pl-10 pr-4 py-2 rounded-full bg-white/70 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-300 text-sm w-48 transition-all duration-300 hover:w-52"
+              />
+            </div>
+            
+            <Rside />
+          </div>
           </header>
 
-          <main className="flex-1 overflow-y-auto p-4 md:p-6">
-            <div className="mx-auto max-w-4xl space-y-6">
-              <div className="space-y-4">
-                <h1 className="text-2xl font-bold tracking-tight">
-                  Radiology Appointment Requests
-                </h1>
+          <main className="flex-1 overflow-y-auto p-4 md:p-6" style={{ backgroundColor: COLORS.background.primary }}>
+            <div className="p-6 rounded-xl shadow-sm border" style={{ backgroundColor: COLORS.background.primary, borderColor: COLORS.border }}>
+              <h1 className="text-2xl font-bold mb-6" style={{ color: COLORS.text.primary }}>Radiology Appointment Requests</h1>
+              <div className="mx-auto max-w-4xl space-y-6">
+                <div className="space-y-4">
+                 
                 
                 <DoctorAppointmentFilters
                   searchQuery={searchQuery}
@@ -135,6 +151,7 @@ export default function DoctorAppointmentsPage() {
                 onNewAppointment={handleNewSlot}
                 onStatusChange={handleStatusChange}
               />
+              </div>
             </div>
           </main>
         </div>
