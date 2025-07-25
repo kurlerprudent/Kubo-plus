@@ -37,14 +37,19 @@ type DemoViewerProps = {
     try {
       const results = await analysis.startAnalysis();
       
-      // Generate report content
-      const reportContent = reportPDF.generateReportContent(results, patientInfo);
-      
-      // Show report after short delay
-      setTimeout(() => {
-        setShowReport(true);
-        reportPDF.simulateTypingEffect();
-      }, 500);
+      // Check if results is defined before proceeding
+      if (results && results.length > 0) {
+        // Generate report content
+        const reportContent = reportPDF.generateReportContent(results, patientInfo);
+        
+        // Show report after short delay
+        setTimeout(() => {
+          setShowReport(true);
+          reportPDF.simulateTypingEffect();
+        }, 500);
+      } else {
+        console.warn("Analysis returned no results");
+      }
     } catch (error) {
       console.error("Analysis failed:", error);
     }
