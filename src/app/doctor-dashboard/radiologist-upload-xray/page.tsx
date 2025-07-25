@@ -3,8 +3,19 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { RadiologistAppSidebar } from "@/components/app-sidebar-doctor";
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
@@ -27,27 +38,30 @@ import { COLORS } from "@/constants/colors";
 export default function UploadXRayPage() {
   const router = useRouter();
   const [showReport, setShowReport] = useState(false);
-  
+
   // Hooks for state management
   const patientInfo = usePatientInfo();
   const fileUpload = useFileUpload();
   const analysis = useAnalysis(fileUpload.files, patientInfo);
   const reportPDF = useReportPDF();
-  
+
   // Form validation
-  const isValidPatientInfo = 
-    patientInfo.patientName !== "" && 
-    patientInfo.dob !== "" && 
+  const isValidPatientInfo =
+    patientInfo.patientName !== "" &&
+    patientInfo.dob !== "" &&
     patientInfo.clinicalHistory !== "";
 
   const startAnalysis = async () => {
     try {
       const results = await analysis.startAnalysis();
-      
+
       // Generate report content only if results exist
       if (results && results.length > 0) {
-        const reportContent = reportPDF.generateReportContent(results, patientInfo);
-        
+        const reportContent = reportPDF.generateReportContent(
+          results,
+          patientInfo
+        );
+
         // Show report after short delay
         setTimeout(() => {
           setShowReport(true);
@@ -77,7 +91,9 @@ export default function UploadXRayPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/radiologist/dashboard">Dashboard</BreadcrumbLink>
+                <BreadcrumbLink href="/radiologist/dashboard">
+                  Dashboard
+                </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
@@ -99,14 +115,26 @@ export default function UploadXRayPage() {
           </div>
         </header>
 
-        <div className="flex flex-1 flex-col gap-4 p-4 overflow-y-auto min-h-screen" style={{ backgroundColor: COLORS.background.primary }}>
-          <div className="p-6 rounded-xl shadow-sm border" style={{ backgroundColor: COLORS.background.primary, borderColor: COLORS.border }}>
-            <h1 className="text-2xl font-bold mb-6" style={{ color: COLORS.text.primary }}>
+        <div
+          className="flex flex-1 flex-col gap-4 p-4 overflow-y-auto min-h-screen"
+          style={{ backgroundColor: COLORS.background.primary }}
+        >
+          <div
+            className="p-6 rounded-xl shadow-sm border"
+            style={{
+              backgroundColor: COLORS.background.primary,
+              borderColor: COLORS.border,
+            }}
+          >
+            <h1
+              className="text-2xl font-bold mb-6"
+              style={{ color: COLORS.text.primary }}
+            >
               Upload Chest X-Ray Images
             </h1>
-            
+
             <PatientInformationForm patientInfo={patientInfo} />
-            
+
             <FileUploadDropzone
               isDragging={fileUpload.isDragging}
               triggerFileSelect={fileUpload.triggerFileSelect}
@@ -114,7 +142,7 @@ export default function UploadXRayPage() {
               handleDragLeave={fileUpload.handleDragLeave}
               handleDrop={fileUpload.handleDrop}
             />
-            
+
             <input
               type="file"
               ref={fileUpload.fileInputRef}
@@ -135,29 +163,30 @@ export default function UploadXRayPage() {
                   activeTab={analysis.activeTab}
                   setActiveTab={analysis.setActiveTab}
                 />
-                
+
                 <AnalysisControls
                   filesCount={fileUpload.files.length}
                   isAnalyzing={analysis.isAnalyzing}
                   isValidPatientInfo={isValidPatientInfo}
                   onClearAll={fileUpload.clearAllFiles}
                   onStartAnalysis={startAnalysis}
-                  uploadProgress={analysis.uploadProgress}
-                  analysisProgress={analysis.analysisProgress}
+                  // uploadProgress={analysis.uploadProgress}
+                  // analysisProgress={analysis.analysisProgress}
                 />
               </>
             )}
 
             {/* AI Analysis Results */}
-            {analysis.analysisComplete && analysis.analysisResults.length > 0 && (
-              <div className="mt-8">
-                <AIAnalysisResults 
-                  results={analysis.analysisResults} 
-                  patientInfo={patientInfo}
-                />
-              </div>
-            )}
-            
+            {analysis.analysisComplete &&
+              analysis.analysisResults.length > 0 && (
+                <div className="mt-8">
+                  <AIAnalysisResults
+                    results={analysis.analysisResults}
+                    patientInfo={patientInfo}
+                  />
+                </div>
+              )}
+
             <ReportPanel
               showReport={showReport}
               setShowReport={setShowReport}
