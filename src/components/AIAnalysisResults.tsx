@@ -1,33 +1,33 @@
 "use client";
 
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Progress } from '@/components/ui/progress';
-import { 
-  Brain, 
-  AlertTriangle, 
-  CheckCircle, 
-  Eye, 
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Progress } from "@/components/ui/progress";
+import {
+  Brain,
+  AlertTriangle,
+  CheckCircle,
+  Eye,
   Activity,
   MapPin,
   TrendingUp,
   Clock,
-  Stethoscope
-} from 'lucide-react';
-import { motion } from 'framer-motion';
+  Stethoscope,
+} from "lucide-react";
+import { motion } from "framer-motion";
 
-import { AIAnalysisResult } from "@/lib/api-enhanced";
+import { AnalysisResult } from "@/hooks/useAnalysis";
 
 interface AIAnalysisResultsProps {
-  results: AIAnalysisResult[];
+  results: AnalysisResult[];
   patientInfo: any;
 }
 
 export const AIAnalysisResults: React.FC<AIAnalysisResultsProps> = ({
   results,
-  patientInfo
+  patientInfo,
 }) => {
   const getSeverityColor = (severity: number) => {
     if (severity === 0) return "text-green-600 bg-green-100";
@@ -62,11 +62,6 @@ export const AIAnalysisResults: React.FC<AIAnalysisResultsProps> = ({
             <CardTitle className="flex items-center gap-2 text-blue-800">
               <Brain className="h-5 w-5" />
               AI Analysis Summary
-              {results.some(r => r.isSimulated) && (
-                <Badge variant="outline" className="text-xs text-orange-600 border-orange-300">
-                  Demo Mode
-                </Badge>
-              )}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -75,16 +70,16 @@ export const AIAnalysisResults: React.FC<AIAnalysisResultsProps> = ({
                 <Activity className="h-4 w-4 text-blue-600" />
                 <div>
                   <p className="text-sm text-gray-600">Images Analyzed</p>
-                  <p className="font-semibold text-blue-800">{results.length}</p>
+                  <p className="font-semibold text-blue-800">
+                    {results.length}
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4 text-blue-600" />
                 <div>
                   <p className="text-sm text-gray-600">Processing Time</p>
-                  <p className="font-semibold text-blue-800">
-                    {results[0]?.processingTime || "~30"} seconds
-                  </p>
+                  <p className="font-semibold text-blue-800">{"~30"} seconds</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -92,7 +87,11 @@ export const AIAnalysisResults: React.FC<AIAnalysisResultsProps> = ({
                 <div>
                   <p className="text-sm text-gray-600">Average Confidence</p>
                   <p className="font-semibold text-blue-800">
-                    {Math.round(results.reduce((acc, r) => acc + r.confidence, 0) / results.length)}%
+                    {Math.round(
+                      results.reduce((acc, r) => acc + r.confidence, 0) /
+                        results.length
+                    )}
+                    %
                   </p>
                 </div>
               </div>
@@ -116,11 +115,13 @@ export const AIAnalysisResults: React.FC<AIAnalysisResultsProps> = ({
                   <Stethoscope className="h-5 w-5 text-blue-600" />
                   X-ray Analysis #{index + 1}
                 </CardTitle>
-                <Badge 
+                <Badge
                   className={`${getSeverityColor(result.severity)} border-none`}
                 >
                   {getSeverityIcon(result.severity)}
-                  <span className="ml-1">{getSeverityLabel(result.severity)}</span>
+                  <span className="ml-1">
+                    {getSeverityLabel(result.severity)}
+                  </span>
                 </Badge>
               </div>
             </CardHeader>
@@ -135,17 +136,19 @@ export const AIAnalysisResults: React.FC<AIAnalysisResultsProps> = ({
                   {result.diagnosis}
                 </p>
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-sm text-gray-600">Confidence Level:</span>
+                  <span className="text-sm text-gray-600">
+                    Confidence Level:
+                  </span>
                   <Progress value={result.confidence} className="flex-1 h-2" />
                   <span className="text-sm font-medium text-gray-800">
                     {result.confidence}%
                   </span>
                 </div>
-                {result.aiModel && (
+                {/* {result.aiModel && (
                   <p className="text-xs text-gray-500">
                     Model: {result.aiModel}
                   </p>
-                )}
+                )} */}
               </div>
 
               {/* Findings */}
@@ -154,32 +157,36 @@ export const AIAnalysisResults: React.FC<AIAnalysisResultsProps> = ({
                   <Eye className="h-4 w-4" />
                   Clinical Findings
                 </h4>
-                <p className="text-gray-700 leading-relaxed">{result.findings}</p>
+                <p className="text-gray-700 leading-relaxed">
+                  {result.findings}
+                </p>
               </div>
 
               {/* Anatomical Regions (if available) */}
-              {result.anatomicalRegions && result.anatomicalRegions.length > 0 && (
-                <div>
-                  <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                    <MapPin className="h-4 w-4" />
-                    Anatomical Regions Analyzed
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {result.anatomicalRegions.map((region, idx) => (
-                      <Badge key={idx} variant="outline" className="text-xs">
-                        {region}
-                      </Badge>
-                    ))}
+              {/* {result.anatomicalRegions &&
+                result.anatomicalRegions.length > 0 && (
+                  <div>
+                    <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                      <MapPin className="h-4 w-4" />
+                      Anatomical Regions Analyzed
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {result.anatomicalRegions.map((region, idx) => (
+                        <Badge key={idx} variant="outline" className="text-xs">
+                          {region}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )} */}
 
               {/* Heatmap Data Indicator */}
               {result.heatmapData && result.heatmapData.length > 0 && (
                 <Alert className="border-orange-200 bg-orange-50">
                   <MapPin className="h-4 w-4 text-orange-600" />
                   <AlertDescription className="text-orange-800">
-                    Areas of interest detected. Heatmap visualization available in detailed view.
+                    Areas of interest detected. Heatmap visualization available
+                    in detailed view.
                   </AlertDescription>
                 </Alert>
               )}
@@ -190,19 +197,22 @@ export const AIAnalysisResults: React.FC<AIAnalysisResultsProps> = ({
                   <TrendingUp className="h-4 w-4" />
                   Clinical Recommendations
                 </h4>
-                <p className="text-blue-700 leading-relaxed">{result.recommendations}</p>
+                <p className="text-blue-700 leading-relaxed">
+                  {result.recommendations}
+                </p>
               </div>
 
               {/* Demo Mode Notice */}
-              {result.isSimulated && (
+              {/* {result.isSimulated && (
                 <Alert className="border-amber-200 bg-amber-50">
                   <Brain className="h-4 w-4 text-amber-600" />
                   <AlertDescription className="text-amber-800">
-                    This is a demonstration result. In production, this would show real AI analysis 
-                    from your integrated machine learning models.
+                    This is a demonstration result. In production, this would
+                    show real AI analysis from your integrated machine learning
+                    models.
                   </AlertDescription>
                 </Alert>
-              )}
+              )} */}
             </CardContent>
           </Card>
         </motion.div>
@@ -224,12 +234,24 @@ export const AIAnalysisResults: React.FC<AIAnalysisResultsProps> = ({
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div>
-                <p className="text-gray-600">Patient: <span className="font-medium text-gray-800">{patientInfo.patientName}</span></p>
-                <p className="text-gray-600">DOB: <span className="font-medium text-gray-800">{patientInfo.dob}</span></p>
+                <p className="text-gray-600">
+                  Patient:{" "}
+                  <span className="font-medium text-gray-800">
+                    {patientInfo.patientName}
+                  </span>
+                </p>
+                <p className="text-gray-600">
+                  DOB:{" "}
+                  <span className="font-medium text-gray-800">
+                    {patientInfo.dob}
+                  </span>
+                </p>
               </div>
               <div>
                 <p className="text-gray-600">Clinical History:</p>
-                <p className="font-medium text-gray-800">{patientInfo.clinicalHistory}</p>
+                <p className="font-medium text-gray-800">
+                  {patientInfo.clinicalHistory}
+                </p>
               </div>
             </div>
           </CardContent>
