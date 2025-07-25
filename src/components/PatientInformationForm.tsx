@@ -9,13 +9,15 @@ interface PatientInformationFormProps {
   patientInfo: ReturnType<typeof usePatientInfo>;
 }
 
-export const PatientInformationForm = ({ patientInfo }: PatientInformationFormProps) => (
-  <motion.div 
+export const PatientInformationForm = ({
+  patientInfo,
+}: PatientInformationFormProps) => (
+  <motion.div
     className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 p-8 rounded-2xl border"
-    style={{ 
-      backgroundColor: COLORS.background.secondary, 
+    style={{
+      backgroundColor: COLORS.background.secondary,
       borderColor: COLORS.border,
-      boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.08)"
+      boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.08)",
     }}
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -23,24 +25,30 @@ export const PatientInformationForm = ({ patientInfo }: PatientInformationFormPr
   >
     {/* Form Header */}
     <div className="md:col-span-2 mb-2">
-      <h2 className="text-xl font-bold tracking-tight" style={{ color: COLORS.text.primary }}>
+      <h2
+        className="text-xl font-bold tracking-tight"
+        style={{ color: COLORS.text.primary }}
+      >
         PATIENT INFORMATION
       </h2>
       <div className="h-1 w-16 bg-blue-500 mt-2 rounded-full"></div>
       <p className="mt-3 text-slate-500 text-sm max-w-2xl">
-        Complete all required fields to proceed with the diagnostic analysis. 
-        Fields marked with <span className="text-red-500">*</span> are mandatory.
+        Complete all required fields to proceed with the diagnostic analysis.
+        Fields marked with <span className="text-red-500">*</span> are
+        mandatory.
       </p>
     </div>
 
     {/* Personal Information Group */}
     <div className="md:col-span-2">
       <h3 className="font-semibold text-slate-700 mb-4 flex items-center">
-        <span className="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">1</span>
+        <span className="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">
+          1
+        </span>
         Personal Information
       </h3>
     </div>
-    
+
     <div className="space-y-2">
       <Label htmlFor="patientName" className="font-semibold flex">
         Full Name <span className="text-red-500 ml-1">*</span>
@@ -90,31 +98,33 @@ export const PatientInformationForm = ({ patientInfo }: PatientInformationFormPr
     {/* Demographic Information Group */}
     <div className="md:col-span-2 mt-4">
       <h3 className="font-semibold text-slate-700 mb-4 flex items-center">
-        <span className="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">2</span>
+        <span className="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">
+          2
+        </span>
         Demographic Information
       </h3>
     </div>
-    
+
     <div className="space-y-3 md:col-span-2">
       <Label className="font-semibold block mb-2">Gender</Label>
-      <RadioGroup 
-        value={patientInfo.sex} 
+      <RadioGroup
+        value={patientInfo.sex}
         onValueChange={patientInfo.setSex}
         className="flex flex-wrap gap-4"
       >
         {[
           { value: "male", label: "Male" },
           { value: "female", label: "Female" },
-          { value: "other", label: "Other" }
+          { value: "other", label: "Other" },
         ].map((option) => (
           <div key={option.value} className="flex items-center">
-            <RadioGroupItem 
-              value={option.value} 
+            <RadioGroupItem
+              value={option.value}
               id={option.value}
               className="text-blue-600 border-slate-400 h-5 w-5"
             />
-            <Label 
-              htmlFor={option.value} 
+            <Label
+              htmlFor={option.value}
               className="ml-2 font-medium text-slate-700 cursor-pointer"
             >
               {option.label}
@@ -127,11 +137,13 @@ export const PatientInformationForm = ({ patientInfo }: PatientInformationFormPr
     {/* Clinical Information Group */}
     <div className="md:col-span-2 mt-4">
       <h3 className="font-semibold text-slate-700 mb-4 flex items-center">
-        <span className="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">3</span>
+        <span className="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">
+          3
+        </span>
         Clinical Information
       </h3>
     </div>
-    
+
     <div className="space-y-2 md:col-span-2">
       <Label htmlFor="clinicalHistory" className="font-semibold">
         Clinical History
@@ -161,11 +173,13 @@ export const PatientInformationForm = ({ patientInfo }: PatientInformationFormPr
     {/* Examination Details Group */}
     <div className="md:col-span-2 mt-4">
       <h3 className="font-semibold text-slate-700 mb-4 flex items-center">
-        <span className="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">4</span>
+        <span className="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">
+          4
+        </span>
         Examination Details
       </h3>
     </div>
-    
+
     <div className="space-y-2">
       <Label htmlFor="examDate" className="font-semibold flex">
         Exam Date <span className="text-red-500 ml-1">*</span>

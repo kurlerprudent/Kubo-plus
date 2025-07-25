@@ -16,19 +16,17 @@ export const useReportPDF = () => {
       clinicalHistory: patientInfo.clinicalHistory,
       radiologistName: patientInfo.radiologistName,
       findings: analysisResults[0]?.findings || "",
-      impression: analysisResults.some(r => r.diagnosis !== "Normal") 
-        ? "Findings consistent with pulmonary pathology." 
-        : "No acute cardiopulmonary abnormality.",
-      reportDate: new Date().toISOString().split('T')[0]
+      impression: analysisResults[0]?.impression,
+      reportDate: new Date().toISOString().split("T")[0],
     };
-    
+
     setReportContent(content);
     return content;
   };
 
   const generatePDF = async (content: any) => {
     setIsGeneratingPDF(true);
-    
+
     try {
       // Real API integration would look like:
       // const response = await fetch(API_URLS.GENERATE_REPORT, {
@@ -47,8 +45,8 @@ export const useReportPDF = () => {
       // Simulated PDF generation
       const doc = new jsPDF();
       doc.text("RADIOLOGY REPORT", 105, 20, { align: "center" });
-      doc.save(`Report_${content.patientName.replace(/\s+/g, '_')}.pdf`);
-      
+      doc.save(`Report_${content.patientName.replace(/\s+/g, "_")}.pdf`);
+
       return true;
     } catch (error) {
       throw error;
@@ -68,6 +66,6 @@ export const useReportPDF = () => {
     isTyping,
     generateReportContent,
     generatePDF,
-    simulateTypingEffect
+    simulateTypingEffect,
   };
 };
