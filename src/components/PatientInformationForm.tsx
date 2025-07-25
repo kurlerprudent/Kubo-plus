@@ -42,7 +42,7 @@ export const PatientInformationForm = ({ patientInfo }: PatientInformationFormPr
     </div>
     
     <div className="space-y-2">
-      <Label htmlFor="patientName" className="font-semibold flex">
+      <Label htmlFor="patientName" className="font-semibold flex text-gray-800">
         Full Name <span className="text-red-500 ml-1">*</span>
       </Label>
       <Input
@@ -50,12 +50,12 @@ export const PatientInformationForm = ({ patientInfo }: PatientInformationFormPr
         value={patientInfo.patientName}
         onChange={(e) => patientInfo.setPatientName(e.target.value)}
         placeholder="Johnathan Doe"
-        className="bg-white border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        className="bg-white border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder:text-gray-500"
       />
     </div>
 
     <div className="space-y-2">
-      <Label htmlFor="patientId" className="font-semibold flex">
+      <Label htmlFor="patientId" className="font-semibold flex text-gray-800">
         Patient ID <span className="text-red-500 ml-1">*</span>
       </Label>
       <Input
@@ -63,12 +63,12 @@ export const PatientInformationForm = ({ patientInfo }: PatientInformationFormPr
         value={patientInfo.patientId}
         onChange={(e) => patientInfo.setPatientId(e.target.value)}
         placeholder="ID-12345"
-        className="bg-white border-slate-300 font-mono"
+        className="bg-white border-slate-300 font-mono text-gray-900 placeholder:text-gray-500"
       />
     </div>
 
     <div className="space-y-2">
-      <Label htmlFor="dob" className="font-semibold flex">
+      <Label htmlFor="dob" className="font-semibold flex text-gray-800">
         Date of Birth <span className="text-red-500 ml-1">*</span>
       </Label>
       <Input
@@ -76,12 +76,12 @@ export const PatientInformationForm = ({ patientInfo }: PatientInformationFormPr
         type="date"
         value={patientInfo.dob}
         onChange={(e) => patientInfo.setDob(e.target.value)}
-        className="bg-white border-slate-300"
+        className="bg-white border-slate-300 text-gray-900"
       />
     </div>
 
     <div className="space-y-2">
-      <Label className="font-semibold">Calculated Age</Label>
+      <Label className="font-semibold text-gray-800">Calculated Age</Label>
       <div className="px-4 py-3 bg-blue-50 rounded-lg text-blue-800 font-medium border border-blue-100">
         {patientInfo.age ? `${patientInfo.age} years` : "Enter date of birth"}
       </div>
@@ -96,7 +96,7 @@ export const PatientInformationForm = ({ patientInfo }: PatientInformationFormPr
     </div>
     
     <div className="space-y-3 md:col-span-2">
-      <Label className="font-semibold block mb-2">Gender</Label>
+      <Label className="font-semibold block mb-2 text-gray-800">Gender</Label>
       <RadioGroup 
         value={patientInfo.sex} 
         onValueChange={patientInfo.setSex}
@@ -115,7 +115,7 @@ export const PatientInformationForm = ({ patientInfo }: PatientInformationFormPr
             />
             <Label 
               htmlFor={option.value} 
-              className="ml-2 font-medium text-slate-700 cursor-pointer"
+              className="ml-2 font-medium text-gray-800 cursor-pointer"
             >
               {option.label}
             </Label>
@@ -133,7 +133,7 @@ export const PatientInformationForm = ({ patientInfo }: PatientInformationFormPr
     </div>
     
     <div className="space-y-2 md:col-span-2">
-      <Label htmlFor="clinicalHistory" className="font-semibold">
+      <Label htmlFor="clinicalHistory" className="font-semibold text-gray-800">
         Clinical History
       </Label>
       <Input
@@ -141,12 +141,12 @@ export const PatientInformationForm = ({ patientInfo }: PatientInformationFormPr
         value={patientInfo.clinicalHistory}
         onChange={(e) => patientInfo.setClinicalHistory(e.target.value)}
         placeholder="Patient symptoms, medical history, and relevant notes"
-        className="bg-white border-slate-300"
+        className="bg-white border-slate-300 text-gray-900 placeholder:text-gray-500"
       />
     </div>
 
     <div className="space-y-2">
-      <Label htmlFor="suspectedDisease" className="font-semibold">
+      <Label htmlFor="suspectedDisease" className="font-semibold text-gray-800">
         Suspected Condition
       </Label>
       <Input
@@ -154,7 +154,7 @@ export const PatientInformationForm = ({ patientInfo }: PatientInformationFormPr
         value={patientInfo.suspectedDisease}
         onChange={(e) => patientInfo.setSuspectedDisease(e.target.value)}
         placeholder="Pneumonia, Tuberculosis, etc."
-        className="bg-white border-slate-300"
+        className="bg-white border-slate-300 text-gray-900 placeholder:text-gray-500"
       />
     </div>
 
@@ -167,7 +167,7 @@ export const PatientInformationForm = ({ patientInfo }: PatientInformationFormPr
     </div>
     
     <div className="space-y-2">
-      <Label htmlFor="examDate" className="font-semibold flex">
+      <Label htmlFor="examDate" className="font-semibold flex text-gray-800">
         Exam Date <span className="text-red-500 ml-1">*</span>
       </Label>
       <Input
@@ -175,12 +175,12 @@ export const PatientInformationForm = ({ patientInfo }: PatientInformationFormPr
         type="date"
         value={patientInfo.examDate}
         onChange={(e) => patientInfo.setExamDate(e.target.value)}
-        className="bg-white border-slate-300"
+        className="bg-white border-slate-300 text-gray-900"
       />
     </div>
 
     <div className="space-y-2">
-      <Label htmlFor="view" className="font-semibold">
+      <Label htmlFor="view" className="font-semibold text-gray-800">
         Imaging View
       </Label>
       <Input
@@ -188,12 +188,12 @@ export const PatientInformationForm = ({ patientInfo }: PatientInformationFormPr
         value={patientInfo.view}
         onChange={(e) => patientInfo.setView(e.target.value)}
         placeholder="PA, Lateral, etc."
-        className="bg-white border-slate-300"
+        className="bg-white border-slate-300 text-gray-900 placeholder:text-gray-500"
       />
     </div>
 
     <div className="space-y-2 md:col-span-2">
-      <Label htmlFor="radiologistName" className="font-semibold">
+      <Label htmlFor="radiologistName" className="font-semibold text-gray-800">
         Referring Radiologist
       </Label>
       <Input
@@ -201,7 +201,7 @@ export const PatientInformationForm = ({ patientInfo }: PatientInformationFormPr
         value={patientInfo.radiologistName}
         onChange={(e) => patientInfo.setRadiologistName(e.target.value)}
         placeholder="Dr. Jane Smith"
-        className="bg-white border-slate-300"
+        className="bg-white border-slate-300 text-gray-900 placeholder:text-gray-500"
       />
     </div>
   </motion.div>

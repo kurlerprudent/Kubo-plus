@@ -17,6 +17,11 @@ export interface PatientRegistrationResponse {
   message: "Registration successful. Awaiting approval.";
 }
 
+export interface DoctorRegistrationResponse {
+  success: true;
+  message: "Doctor registration successful. Awaiting approval.";
+}
+
 export interface LoginRequest {
   email: string;           // Required, valid email
   password: string;        // Required
@@ -398,11 +403,12 @@ export interface DoctorAvailabilityDocument {
 }
 
 // ========== API Endpoints Configuration ==========
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://rad-backend-9498dddd133c.herokuapp.com';
 
 export const API_ENDPOINTS = {
   // Authentication
   PATIENT_REGISTER: `${API_BASE_URL}/api/auth/patients/register`,
+  DOCTOR_REGISTER: `${API_BASE_URL}/api/auth/doctors/register`,
   LOGIN: `${API_BASE_URL}/api/auth/login`,
   LOGOUT: `${API_BASE_URL}/api/auth/logout`,
   FORGOT_PASSWORD: `${API_BASE_URL}/api/auth/forgot-password`,
