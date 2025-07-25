@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { API_URLS } from "@/constants/index";
 
-interface AnalysisResult {
+export interface AnalysisResult {
   id: number;
   diagnosis: string;
   confidence: number;
