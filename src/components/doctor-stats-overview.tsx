@@ -1,66 +1,85 @@
 "use client";
 import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Activity, ClipboardList, Stethoscope, User, Loader2 } from 'lucide-react';
+import { Activity, ClipboardList, Stethoscope, User, Loader2, Upload, Clock } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-import { getDoctorMetricsOverview, getPendingAnalysisCount, getRecentAnalysis } from '@/lib/api';
+import { 
+  getDoctorMetricsOverview, 
+  getDoctorPendingAnalysis,
+  getDoctorCompletedReports,
+  getDoctorUploadsToday,
+  getDoctorAvgProcessingTime
+} from '@/lib/api';
 
 const DoctorStatsOverview = () => {
-  // Fetch real-time data from your backend API
-  const { data: metrics, isLoading: metricsLoading, error: metricsError } = useQuery({
-    queryKey: ['doctorMetrics'],
+  // Fetch comprehensive metrics from API
+  const { data: overview, isLoading: overviewLoading, error: overviewError } = useQuery({
+    queryKey: ['doctorMetricsOverview'],
     queryFn: getDoctorMetricsOverview,
     refetchInterval: 30000, // Refresh every 30 seconds
   });
 
-  const { data: pendingData, isLoading: pendingLoading } = useQuery({
-    queryKey: ['pendingAnalysis'],
-    queryFn: getPendingAnalysisCount,
+  const { data: pendingAnalysis, isLoading: pendingLoading } = useQuery({
+    queryKey: ['doctorPendingAnalysis'],
+    queryFn: getDoctorPendingAnalysis,
     refetchInterval: 30000,
   });
 
-  const { data: recentData, isLoading: recentLoading } = useQuery({
-    queryKey: ['recentAnalysis'],
-    queryFn: getRecentAnalysis,
+  const { data: completedReports, isLoading: completedLoading } = useQuery({
+    queryKey: ['doctorCompletedReports'],
+    queryFn: getDoctorCompletedReports,
     refetchInterval: 30000,
   });
 
-  // Mock data for uploads today since API doesn't have this endpoint
-  const uploadsToday = 8;
+  const { data: uploadsToday, isLoading: uploadsLoading } = useQuery({
+    queryKey: ['doctorUploadsToday'],
+    queryFn: getDoctorUploadsToday,
+    refetchInterval: 30000,
+  });
+
+  const { data: avgProcessingTime, isLoading: avgTimeLoading } = useQuery({
+    queryKey: ['doctorAvgProcessingTime'],
+    queryFn: getDoctorAvgProcessingTime,
+    refetchInterval: 60000, // Refresh every minute
+  });
 
   // Build stats from real API data
   const stats = [
     { 
-      title: "Total Cases", 
-      value: metricsLoading ? "..." : (metrics?.data?.totalPatients?.toString() || "0"), 
+      title: "Pending Analysis", 
+      value: pendingLoading ? "..." : (pendingAnalysis?.data?.count?.toString() || "0"), 
+      change: "+5%", 
+      icon: <Stethoscope className="h-5 w-5" />,
+      loading: pendingLoading,
+      color: "text-orange-600"
+    },
+    { 
+      title: "Completed Reports", 
+      value: completedLoading ? "..." : (completedReports?.data?.count?.toString() || "0"), 
       change: "+12%", 
       icon: <ClipboardList className="h-5 w-5" />,
-      loading: metricsLoading 
+      loading: completedLoading,
+      color: "text-green-600"
     },
     { 
-      title: "Pending Reviews", 
-      value: pendingLoading ? "..." : (pendingData?.data?.pendingCount?.toString() || "0"), 
-      change: "-3%", 
-      icon: <Stethoscope className="h-5 w-5" />,
-      loading: pendingLoading 
-    },
-    { 
-      title: "Recent Analysis", 
-      value: recentLoading ? "..." : (recentData?.data?.length?.toString() || "0"), 
+      title: "Uploads Today", 
+      value: uploadsLoading ? "..." : (uploadsToday?.data?.count?.toString() || "0"), 
       change: "+8%", 
-      icon: <Activity className="h-5 w-5" />,
-      loading: recentLoading 
+      icon: <Upload className="h-5 w-5" />,
+      loading: uploadsLoading,
+      color: "text-blue-600"
     },
     { 
-      title: "New Patients", 
-      value: uploadsToday.toString(), 
-      change: "+15%", 
-      icon: <User className="h-5 w-5" />,
-      loading: false 
-    },
+      title: "Avg. Processing Time", 
+      value: avgTimeLoading ? "..." : (avgProcessingTime?.data?.avgTime ? `${avgProcessingTime.data.avgTime}min` : "0min"), 
+      change: "-15%", 
+      icon: <Clock className="h-5 w-5" />,
+      loading: avgTimeLoading,
+      color: "text-purple-600"
+    }
   ];
 
-  if (metricsError) {
+  if (overviewError) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="bg-red-50 border-red-200">
@@ -82,7 +101,9 @@ const DoctorStatsOverview = () => {
                       {stat.loading ? (
                         <Loader2 className="h-5 w-5 animate-spin text-blue-500" />
                       ) : (
-                        stat.icon
+                        <div className={stat.color}>
+                          {stat.icon}
+                        </div>
                       )}
                     </div>
                   </CardHeader>

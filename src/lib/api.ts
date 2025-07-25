@@ -2,6 +2,8 @@
 import { 
   PatientRegistrationRequest, 
   PatientRegistrationResponse,
+  DoctorRegistrationRequest,
+  DoctorRegistrationResponse,
   LoginRequest, 
   LoginResponse,
   ForgotPasswordRequest,
@@ -72,6 +74,24 @@ export async function registerPatient(data: PatientRegistrationRequest): Promise
 
   if (!response.ok) {
     throw new Error(result.message || 'Failed to register patient');
+  }
+
+  return result;
+}
+
+export async function registerDoctor(data: DoctorRegistrationRequest): Promise<DoctorRegistrationResponse> {
+  const response = await fetch(API_ENDPOINTS.DOCTOR_REGISTER, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || 'Failed to register doctor');
   }
 
   return result;
@@ -217,6 +237,181 @@ export async function getDoctorMetricsOverview(): Promise<DashboardMetricsRespon
 
   if (!response.ok) {
     throw new Error(result.message || 'Failed to fetch metrics overview');
+  }
+
+  return result;
+}
+
+// Individual doctor metrics functions based on API documentation
+export async function getDoctorPendingAnalysis(): Promise<{ success: boolean; data: { count: number } }> {
+  const token = localStorage.getItem('token');
+  
+  const response = await fetch(API_ENDPOINTS.DOCTOR_PENDING_ANALYSIS, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || 'Failed to fetch pending analysis count');
+  }
+
+  return result;
+}
+
+export async function getDoctorCompletedReports(): Promise<{ success: boolean; data: { count: number } }> {
+  const token = localStorage.getItem('token');
+  
+  const response = await fetch(API_ENDPOINTS.DOCTOR_COMPLETED_REPORTS, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || 'Failed to fetch completed reports count');
+  }
+
+  return result;
+}
+
+export async function getDoctorUploadsToday(): Promise<{ success: boolean; data: { count: number } }> {
+  const token = localStorage.getItem('token');
+  
+  const response = await fetch(API_ENDPOINTS.DOCTOR_UPLOADS_TODAY, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || 'Failed to fetch uploads today count');
+  }
+
+  return result;
+}
+
+export async function getDoctorAvgProcessingTime(): Promise<{ success: boolean; data: { avgTime: number } }> {
+  const token = localStorage.getItem('token');
+  
+  const response = await fetch(API_ENDPOINTS.DOCTOR_AVG_PROCESSING_TIME, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || 'Failed to fetch average processing time');
+  }
+
+  return result;
+}
+
+export async function getDoctorMonthlyAnalysis(): Promise<{ success: boolean; data: any[] }> {
+  const token = localStorage.getItem('token');
+  
+  const response = await fetch(API_ENDPOINTS.DOCTOR_MONTHLY_ANALYSIS, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || 'Failed to fetch monthly analysis data');
+  }
+
+  return result;
+}
+
+// ========== Doctor X-ray Upload and AI Analysis ==========
+
+export async function uploadXrayImages(files: File[], patientInfo: any): Promise<{ success: boolean; data: any }> {
+  const token = localStorage.getItem('token');
+  
+  const formData = new FormData();
+  
+  // Add files to form data
+  files.forEach((file, index) => {
+    formData.append('files', file);
+  });
+  
+  // Add patient information
+  formData.append('patientInfo', JSON.stringify(patientInfo));
+  
+  const response = await fetch(API_ENDPOINTS.DOCTOR_UPLOAD_XRAY, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      // Don't set Content-Type for FormData - browser sets it automatically with boundary
+    },
+    body: formData,
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || 'Failed to upload X-ray images');
+  }
+
+  return result;
+}
+
+export async function startXrayAnalysis(uploadId: string): Promise<{ success: boolean; data: any }> {
+  const token = localStorage.getItem('token');
+  
+  const response = await fetch(API_ENDPOINTS.DOCTOR_START_ANALYSIS, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify({ uploadId }),
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || 'Failed to start X-ray analysis');
+  }
+
+  return result;
+}
+
+export async function getAnalysisStatus(analysisId: string): Promise<{ success: boolean; data: any }> {
+  const token = localStorage.getItem('token');
+  
+  const response = await fetch(`${API_ENDPOINTS.DOCTOR_ANALYSIS_STATUS}/${analysisId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || 'Failed to get analysis status');
   }
 
   return result;

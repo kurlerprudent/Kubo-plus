@@ -20,6 +20,7 @@ import { FileUploadDropzone } from "@/components/FileUploadDropzone";
 import { FileList } from "@/components/FileList";
 import { AnalysisControls } from "@/components/AnalysisControls";
 import { ReportPanel } from "@/components/ReportPanel";
+import { AIAnalysisResults } from "@/components/AIAnalysisResults";
 
 import { COLORS } from "@/constants/colors";
 
@@ -43,14 +44,16 @@ export default function UploadXRayPage() {
     try {
       const results = await analysis.startAnalysis();
       
-      // Generate report content
-      const reportContent = reportPDF.generateReportContent(results, patientInfo);
-      
-      // Show report after short delay
-      setTimeout(() => {
-        setShowReport(true);
-        reportPDF.simulateTypingEffect();
-      }, 500);
+      // Generate report content only if results exist
+      if (results && results.length > 0) {
+        const reportContent = reportPDF.generateReportContent(results, patientInfo);
+        
+        // Show report after short delay
+        setTimeout(() => {
+          setShowReport(true);
+          reportPDF.simulateTypingEffect();
+        }, 500);
+      }
     } catch (error) {
       console.error("Analysis failed:", error);
     }
@@ -139,8 +142,20 @@ export default function UploadXRayPage() {
                   isValidPatientInfo={isValidPatientInfo}
                   onClearAll={fileUpload.clearAllFiles}
                   onStartAnalysis={startAnalysis}
+                  uploadProgress={analysis.uploadProgress}
+                  analysisProgress={analysis.analysisProgress}
                 />
               </>
+            )}
+
+            {/* AI Analysis Results */}
+            {analysis.analysisComplete && analysis.analysisResults.length > 0 && (
+              <div className="mt-8">
+                <AIAnalysisResults 
+                  results={analysis.analysisResults} 
+                  patientInfo={patientInfo}
+                />
+              </div>
             )}
             
             <ReportPanel
