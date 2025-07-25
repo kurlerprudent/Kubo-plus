@@ -110,17 +110,12 @@ export const useAnalysis = (files: File[], patientInfo: PatientInfo) => {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 minute timeout
 
-      const response = await fetch(
-        "https://rad-backend-9498dddd133c.herokuapp.com/api/v1/rad/analyze",
-        {
-          method: "POST",
-          body: formData,
-          signal: controller.signal,
-          headers: {
-            // Don't set Content-Type header for FormData - browser will set it automatically with boundary
-          },
-        }
-      );
+      const response = await fetch("http://localhost:3000/api/v1/rad/analyze", {
+        method: "POST",
+        body: formData,
+        signal: controller.signal,
+        // headers are intentionally omitted for FormData
+      });
 
       clearTimeout(timeoutId);
 
