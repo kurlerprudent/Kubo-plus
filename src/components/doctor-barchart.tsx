@@ -1,7 +1,9 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
+import { TrendingUp, Loader2 } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+import { useQuery } from '@tanstack/react-query';
+import { getDiagnosisDistribution } from '@/lib/api';
 import {
   Card,
   CardContent,
@@ -21,13 +23,6 @@ import { COLORS } from "@/constants/colors"
 
 export const description = "A bar chart showing diagnosis counts"
 
-const chartData = [
-  { diagnosis: "Pneumonia",    count: 35 },
-  { diagnosis: "Tuberculosis",  count: 12 },
-  { diagnosis: "Normal",        count: 50 },
-  { diagnosis: "Other",         count:  8 },
-]
-
 const chartConfig = {
   count: {
     label: "Cases",
@@ -37,6 +32,48 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function DoctorBarChart() {
+  const { data: diagnosisData, isLoading, error } = useQuery({
+    queryKey: ['diagnosisDistribution'],
+    queryFn: getDiagnosisDistribution,
+    refetchInterval: 300000, // Refresh every 5 minutes
+  });
+
+  // Use real data or fallback
+  const chartData = diagnosisData?.data || [
+    { diagnosis: "Pneumonia", count: 0 },
+    { diagnosis: "Tuberculosis", count: 0 },
+    { diagnosis: "Normal", count: 0 },
+    { diagnosis: "Other", count: 0 },
+  ];
+
+  if (isLoading) {
+    return (
+      <Card className="border-none" style={{ backgroundColor: `#${COLORS.background.primary}` }}>
+        <CardHeader>
+          <CardTitle>Diagnosis Distribution</CardTitle>
+          <CardDescription>Loading...</CardDescription>
+        </CardHeader>
+        <CardContent className="flex items-center justify-center h-48">
+          <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card className="border-none" style={{ backgroundColor: `#${COLORS.background.primary}` }}>
+        <CardHeader>
+          <CardTitle>Diagnosis Distribution</CardTitle>
+          <CardDescription>Failed to load data</CardDescription>
+        </CardHeader>
+        <CardContent className="flex items-center justify-center h-48">
+          <p className="text-red-500">Unable to load diagnosis data</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card 
       className="border-none"

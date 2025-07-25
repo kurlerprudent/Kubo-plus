@@ -25,7 +25,9 @@ import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { SignUpFormValues, UserRole } from "@/types/User";
+import { SignUpFormValues, UserRole, FormUserRole } from "@/types/User";
+import { registerPatient, handleApiError } from "@/lib/api";
+import { PatientRegistrationRequest } from "@/types/api";
 
 const signUpSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
@@ -53,48 +55,57 @@ export default function SignUpPage() {
       name: "",
       email: "",
       phone: "",
-      role: "patient" as UserRole, 
+      role: "patient" as FormUserRole, 
       password: "",
       confirmPassword: "",
     },
     mode: "onChange",
   });
 
-   const doSomething = ()=>{
-        toast.success("Account created successfully! Redirecting to login...");
-        setTimeout(() => router.push("/login"), 2000);
-        setIsLoading(false);
-    }
-
   const onSubmit = async (data: SignUpFormValues) => {
     setIsLoading(true);
-    doSomething()
 
-   
+    try {
+      // Only patients can register through this form (as per API documentation)
+      if (data.role !== "patient") {
+        toast.error("Only patients can register through this form");
+        return;
+      }
 
-    
-    
-    // try {
-    //   // Send data to backend
-    //   const response = await fetch("/api/signup", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(data),
-    //   });
+      // Extract first and last name from full name
+      const nameParts = data.name.trim().split(' ');
+      const firstName = nameParts[0] || '';
+      const lastName = nameParts.slice(1).join(' ') || '';
 
-    //   const result = await response.json();
+      if (!firstName || !lastName) {
+        toast.error("Please enter both first and last name");
+        return;
+      }
 
-    //   if (response.ok) {
-    //     toast.success("Account created successfully! Redirecting to login...");
-    //     setTimeout(() => router.push("/login"), 2000);
-    //   } else {
-    //     toast.error(result.message || "Sign up failed");
-    //   }
-    // } catch (error) {
-    //   toast.error("Network error. Please try again.");
-    // } finally {
-    //   setIsLoading(false);
-    // }
+      // Prepare registration data for backend
+      const registrationData: PatientRegistrationRequest = {
+        firstName,
+        lastName,
+        email: data.email,
+        password: data.password,
+        phone: data.phone,
+        // gender is optional in the API
+      };
+
+      // Call backend API
+      const response = await registerPatient(registrationData);
+
+      if (response.success) {
+        toast.success("Account created successfully! Awaiting approval.");
+        setTimeout(() => router.push("/login"), 2000);
+      }
+
+    } catch (error) {
+      const errorMessage = handleApiError(error);
+      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

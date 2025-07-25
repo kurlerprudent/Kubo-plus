@@ -20,10 +20,11 @@ import {
 import { usePatientDashboardData } from '@/hooks/usePatientDashboardData';
 import { MetricCard } from "@/components/MetricCard"
 import { RecentActivity } from '@/components/RecentActivity';
-import  AppointmentsTable  from '@/components/AppointmentsTable';
+import { AppointmentsTable } from '@/components/AppointmentsTable';
 import DashboardChart from '@/components/DashboardChart';
 import { Calendar, FileText, Stethoscope } from 'lucide-react';
 import { ChartTypeSelector } from '@/components/ChartTypeSelector';
+import { useAppointmentStats } from '@/hooks/useAppointments';
 
 export default function Page() {
   const { data, isLoading } = usePatientDashboardData();
@@ -105,19 +106,21 @@ export default function Page() {
             </div>
           </div>
 
-          {/* Appointments Table */}
+          {/* Appointments Section */}
           <div className="bg-white shadow p-6 rounded-xl">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold text-gray-800">
-                Appointment History
+                Recent Appointments
               </h2>
-              <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors">
-                Export to CSV
-              </button>
+              <a 
+                href="/dashboard/patient-appointments" 
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors"
+              >
+                View All Appointments
+              </a>
             </div>
             <AppointmentsTable 
-              appointments={data?.appointments || []} 
-              isLoading={isLoading}
+              filters={{ upcoming: true }}
             />
           </div>
         </div>

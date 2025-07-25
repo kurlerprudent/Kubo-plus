@@ -23,11 +23,13 @@ import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { UserRole } from "@/types/User";
+import { UserRole, FormUserRole, mapFormRoleToApiRole } from "@/types/User";
+import { loginUser, handleApiError } from "@/lib/api";
+import { LoginRequest } from "@/types/api";
 
-// Extend form values to include UserRole
+// Extend form values to match frontend form requirements
 type FormValues = {
-  role: UserRole | "";
+  role: FormUserRole | "";
   email: string;
   password: string;
 };
@@ -48,26 +50,50 @@ export default function LoginPage() {
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
 
-    // No credential check for now, just redirect based on role
-    toast.success("Login successful! Redirecting…", { duration: 1500 });
-    setTimeout(() => {
-      switch (data.role) {
-        case "patient":
-          router.push("/dashboard");
-          break;
-        case "doctor":
-          router.push("/doctor-dashboard");
-          break;
-        case "admin":
-          router.push("/admin-dashboard");
-          break;
-        case "super-admin":
-          router.push("/superadmin-dashboard");
-          break;
-        default:
-          router.push("/");
+    try {
+      // Validate role is selected
+      if (!data.role) {
+        toast.error("Please select a role");
+        return;
       }
-    }, 1500);
+
+      // Call the real backend API
+      const loginData: LoginRequest = {
+        email: data.email,
+        password: data.password,
+        role: mapFormRoleToApiRole(data.role), // Convert form role to API role
+      };
+
+      const response = await loginUser(loginData);
+
+      // Success - show message and redirect based on actual user role
+      toast.success("Login successful! Redirecting…", { duration: 1500 });
+      
+      setTimeout(() => {
+        switch (response.user.role) {
+          case "PATIENT":
+            router.push("/dashboard");
+            break;
+          case "DOCTOR":
+            router.push("/doctor-dashboard");
+            break;
+          case "ADMIN":
+            router.push("/admin-dashboard");
+            break;
+          case "SUPER_ADMIN":
+            router.push("/superadmin-dashboard");
+            break;
+          default:
+            router.push("/");
+        }
+      }, 1500);
+
+    } catch (error) {
+      const errorMessage = handleApiError(error);
+      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -120,7 +146,7 @@ export default function LoginPage() {
                       <SelectValue placeholder="Choose role..." />
                     </SelectTrigger>
                     <SelectContent className="bg-white border border-primary/30 rounded-lg shadow-md">
-                      {( ["patient", "doctor", "admin", "super-admin"] as UserRole[] ).map((r) => (
+                      {( ["patient", "doctor", "admin", "super-admin"] as FormUserRole[] ).map((r) => (
                         <SelectItem key={r} value={r}>
                           {r.replace("-", " ").replace(/\b\w/g, (c) => c.toUpperCase())}
                         </SelectItem>
