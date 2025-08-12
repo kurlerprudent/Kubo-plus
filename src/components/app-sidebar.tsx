@@ -19,7 +19,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 const NAV_ITEMS = [
   { title: "Dashboard", url: "/dashboard", icon: Home },
   { title: "My Reports", url: "/dashboard/patient-reports", icon: FileText },
-  { title: "Appointments", url: "/dashboard/patient-appointments", icon: Calendar },
+  { title: "Appointments", url: "/dashboard/appointments", icon: Calendar },
   { title: "Messages", url: "/dashboard/patient-message", icon: MessageCircle },
   { title: "Settings", url: "/dashboard/patient-settings", icon: Settings },
   { title: "Profile", url: "/dashboard/patient-profile", icon: User },

@@ -20,7 +20,7 @@ const NAV_ITEMS = [
   { title: "Dashboard", url: "/doctor-dashboard", icon: Home },
   { title: "Upload X-Ray", url: "/doctor-dashboard/radiologist-upload-xray", icon: UploadCloud },
   { title: "History", url: "/doctor-dashboard/radiologist-history", icon: Clock },
-  { title: "Appointment", url: "/doctor-dashboard/appointments", icon: Clock },
+  { title: "Appointments", url: "/doctor-dashboard/appointments", icon: Clock },
   { title: "Messages", url: "/doctor-dashboard/message", icon: MessageCircle },
   { title: "Settings", url: "/doctor-dashboard/radiologist-settings", icon: Settings },
   { title: "Profile", url: "/doctor-dashboard/radiologist-profile", icon: User },

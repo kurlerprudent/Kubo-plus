@@ -1,6 +1,8 @@
-// app/doctor-dashboard/appointments/page.tsx
 "use client";
-import { RadiologistAppSidebar } from "@/components/app-sidebar-doctor";
+import React from "react";
+import { AppSidebar } from "@/components/app-sidebar";
+import { Separator } from "@/components/ui/separator";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,19 +11,12 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
-import DoctorAppointment from "@/components/doctor-dashboard/DoctorAppointment";
-import Rside from "@/components/header-right-side";
+import PatientAppointment from "@/components/dashboard/PatientAppointment";
 
-export default function DoctorAppointmentsPage() {
+export default function PatientAppointmentsRoute() {
   return (
     <SidebarProvider>
-      <RadiologistAppSidebar />
+      <AppSidebar />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
@@ -30,7 +25,7 @@ export default function DoctorAppointmentsPage() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="/doctor-dashboard">Dashboard</BreadcrumbLink>
+                  <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
@@ -39,12 +34,9 @@ export default function DoctorAppointmentsPage() {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <div className="ml-auto px-3">
-            <Rside />
-          </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <DoctorAppointment />
+          <PatientAppointment />
         </div>
       </SidebarInset>
     </SidebarProvider>
