@@ -37,7 +37,7 @@ export default function NewsHeroSection() {
       >
         <h1 className="text-white text-4xl md:text-6xl font-bold tracking-tight">
           <Typewriter
-            words={["AI Model Update", "Chest X-ray Insights", "Trusted Medical Reports"]}
+            words={["Coming Soon", "AI Innovation", "Future of Healthcare"]}
             loop={0}
             cursor
             cursorStyle="_"
@@ -47,20 +47,14 @@ export default function NewsHeroSection() {
           />
         </h1>
         <p className="mt-6 text-lg md:text-xl text-white/80 max-w-3xl">
-          Stay updated with the latest advancements in our AI-powered Chest X-ray Diagnostic System.
+          Stay tuned for updates about our AI-powered Chest X-ray Diagnostic System. We&apos;re working on bringing innovative healthcare solutions to the future.
         </p>
         <div className="mt-8 flex gap-4 flex-wrap justify-center">
           <Link
-            href="/news/ai-model-update"
+            href="/news"
             className="rounded-2xl bg-cyan-500 hover:bg-cyan-400 text-black px-6 py-3 font-medium shadow-md transition-transform hover:scale-105"
           >
-            Read More
-          </Link>
-          <Link
-            href="/news"
-            className="rounded-2xl border border-white text-white px-6 py-3 font-medium hover:bg-white hover:text-black transition-transform hover:scale-105"
-          >
-            View All News
+            View News & Events
           </Link>
         </div>
       </motion.div>

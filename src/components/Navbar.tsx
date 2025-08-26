@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
-const NavLink = ({ href, children }: { href: string; children: string }) => {
+const NavLink = ({ href, children, hasScrolled }: { href: string; children: string; hasScrolled: boolean }) => {
   const pathname = usePathname();
   const isActive = pathname === href;
 
@@ -21,8 +21,12 @@ const NavLink = ({ href, children }: { href: string; children: string }) => {
         href={href}
         className={`px-3 py-2 text-lg font-medium transition-colors ${
           isActive
-            ? "text-blue-600 dark:text-blue-400"
-            : "text-slate-800 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400"
+            ? hasScrolled 
+              ? "text-blue-600 dark:text-blue-400" 
+              : "text-blue-400"
+            : hasScrolled
+              ? "text-slate-800 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400"
+              : "text-white hover:text-blue-300"
         }`}
       >
         {children}
@@ -31,7 +35,9 @@ const NavLink = ({ href, children }: { href: string; children: string }) => {
       {isActive && (
         <motion.div
           layoutId="nav-underline"
-          className="absolute bottom-0 left-0 h-0.5 w-full bg-blue-600 dark:bg-blue-400"
+          className={`absolute bottom-0 left-0 h-0.5 w-full ${
+            hasScrolled ? "bg-blue-600 dark:bg-blue-400" : "bg-blue-400"
+          }`}
           initial={false}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
         />
@@ -129,7 +135,7 @@ export default function Navbar() {
         className={`fixed top-0 z-50 w-full transition-all duration-300 ${
           hasScrolled
             ? "bg-white/90 backdrop-blur-md shadow-sm dark:bg-slate-900/90"
-            : "bg-transparent"
+            : "bg-black/20 backdrop-blur-sm"
         }`}
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -153,14 +159,18 @@ export default function Navbar() {
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center space-x-4">
               {navLinks.map((link) => (
-                <NavLink key={link.href} href={link.href}>
+                <NavLink key={link.href} href={link.href} hasScrolled={hasScrolled}>
                   {link.label}
                 </NavLink>
               ))}
 
               <Link
                 href="/login"
-                className="px-4 py-2 font-medium text-slate-800 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400"
+                className={`px-4 py-2 font-medium transition-colors ${
+                  hasScrolled
+                    ? "text-slate-800 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400"
+                    : "text-white hover:text-blue-300"
+                }`}
               >
                 Login
               </Link>
@@ -181,7 +191,11 @@ export default function Navbar() {
             <button
               aria-label={isOpen ? "Close menu" : "Open menu"}
               aria-expanded={isOpen}
-              className="md:hidden rounded-md p-2 text-slate-800 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-300 dark:hover:bg-slate-800"
+              className={`md:hidden rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                hasScrolled
+                  ? "text-slate-800 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                  : "text-white hover:bg-white/20"
+              }`}
               onClick={toggleMenu}
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
