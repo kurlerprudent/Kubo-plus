@@ -31,17 +31,6 @@ const NavLink = ({ href, children, hasScrolled }: { href: string; children: stri
       >
         {children}
       </Link>
-
-      {isActive && (
-        <motion.div
-          layoutId="nav-underline"
-          className={`absolute bottom-0 left-0 h-0.5 w-full ${
-            hasScrolled ? "bg-blue-600 dark:bg-blue-400" : "bg-blue-400"
-          }`}
-          initial={false}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        />
-      )}
     </motion.div>
   );
 };
